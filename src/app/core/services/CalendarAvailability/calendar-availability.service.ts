@@ -1,9 +1,11 @@
+import { Property } from './../../models/Property';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { CalendarAvailability } from '../../models/CalendarAvailability';
 import { HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import dayjs from 'dayjs';
 
 // src/app/shared/models/calendar-check-availability.dto.ts
 
@@ -29,7 +31,6 @@ export interface Result<T> {
   statusCode?: number;
 }
 
-// Single date availability structure rawan use
 export interface CalendarAvailabilityDto {
   date: string; 
   isAvailable: boolean;
@@ -65,9 +66,13 @@ export class CalendarAvailabilityService {
             .pipe(map(res => res.data));
 }
 
-     
-
-
+      // getSpecialPrice(
+      //   Propertyid:string,
+      //   startdateSelected:dayjs,
+      //   enddateSelected:dayjs
+      // ):Observable<CalendarAvailability[]>{
+      //       const
+      // }
 
 
 

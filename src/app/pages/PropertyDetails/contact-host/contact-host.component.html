@@ -1,0 +1,74 @@
+  <div class="airbnb-header">
+
+    <div class="main-container">
+        <div class="hostMessage">
+            <!-- Left Column - Contact Information -->
+            <div class="left-column">
+                <a href="#" class="back-button">
+                    <svg class="back-arrow" viewBox="0 0 16 16">
+                        <path d="m10.5 13.5-5-5 5-5"></path>
+                    </svg>
+                    Back
+                </a>
+
+                <div *ngIf="hostProfile" class="host-section">
+                    <div class="host-header">
+                        <h1 class="host-title">{{ hostProfile.firstName }} {{ hostProfile.lastName }}</h1>
+                        <div class="new">Host since {{ hostProfile.createdAt | date: 'longDate' }}</div>
+                        <div class="host-avatar"><img [src]="hostProfile.profilePictureURL" alt="Host" class="rounded-circle me-3" width="60" height="60"></div>
+                    </div>
+                    <p class="response-time">Typically responds within an hour</p>
+                </div>
+
+                <div class="faq-section">
+                    <h2 class="faq-title">Most travelers ask about</h2>
+                    
+                    <div class="faq-item">
+                        <h3 class="faq-question">Getting there</h3>
+                        <p class="faq-answer">Check-in time for this home starts at 3:00 PM and checkout is at 12:00 PM.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3 class="faq-question">House details and rules</h3>
+                        <ul class="faq-list">
+                            <li class="faq-answer">No parties or events. No pets.</li>
+                        </ul>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3 class="faq-question">Price and availability</h3>
+                        <div class="faq-answer">
+                            <p>Get a 25% discount on stays longer than a month.</p>
+                            <p style="margin-top: 8px;">Brassbell's home is available from Sep 19 – 21. Book soon.</p>
+                            <p style="margin-top: 8px;">Cancel up to 24 hours before check-in and get a full refund. After that, cancel before check-in and get a full refund, minus the first night and service fee.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="message-section">
+                    <h2 class="message-title">Still have questions? Message the host</h2>
+                    
+                    <form class="message-form">
+                        <textarea 
+                            class="message-textarea" 
+                            placeholder="Hi Brassbell! I'll be visiting..."
+                            name="message">
+                        </textarea>
+                        <button type="submit" class="send-button">Send message</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column - Your Angular Component -->
+            <div *ngIf="showReservationBox" class="col-md-3 sticky-box" style="position: sticky; top: 90px;">
+                <!-- <app-reverse-section 
+                    [dateMap]="dateMap"
+                    [propertyId]="propertyId"
+                    [checkIn]="selectedDates.start"
+                    [checkOut]="selectedDates.end"
+                    [guests]="guestCount" 
+                    (guestChange)="onGuestChange($event)">
+                </app-reverse-section> -->
+            </div>
+        </div>
+    </div>

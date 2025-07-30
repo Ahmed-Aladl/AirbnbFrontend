@@ -89,6 +89,7 @@ export interface ReservePropertyRequest {
   checkOutDate: string;
   guestCount: number;
   message: string;
+   hostId: string;
 }
 
 export interface User {
@@ -182,8 +183,16 @@ export class ChatService {
       .post<{ message: string }>(`${this.baseUrl}/sessions/${chatSessionId}/mark-read`, {});
   }
 
-  // Reserve a property (creates chat session and reservation request)
+  // Reserve a property (creates chat session and reservation request)   rawan use this 
   reserveProperty(request: ReservePropertyRequest): Observable<Result<ReservePropertyResponse>> {
     return this.http.post<Result<ReservePropertyResponse>>(`${this.baseUrl}/reserve`, request);
   }
+
+
+
+  //     this.http.post<{ data: { checkoutUrl: string } }>('/api/payment/create-checkout-session', checkoutRequest)
+  // .subscribe(res => {
+  //   window.location.href = res.data.checkoutUrl; // this is Stripe’s URL
+  // });
+  
 }

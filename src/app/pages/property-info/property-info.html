@@ -41,6 +41,7 @@
         <app-reverse-section 
           [dateMap]="dateMap"
           [propertyId]="propertyId"
+          [hostID]="hostID"
           [checkIn]="selectedDates.start"
           [checkOut]="selectedDates.end"
           [guests]="guestCount" 
@@ -93,5 +94,5 @@
     <hr style="color: black; width: 5px;">
    </div>
 
-  <app-guest-reviews [propertyId]="propertyId"></app-guest-reviews>
+  <!-- <app-guest-reviews [propertyId]="propertyId"></app-guest-reviews> -->
 </div>

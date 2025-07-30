@@ -41,6 +41,7 @@ import { UpdateProfile } from './pages/update-profile/update-profile';
 import { YourReviews } from './pages/your-reviews/your-reviews';
 import { Notifications } from './pages/notifications/notifications';
 import { ReviewForm } from './components/review-form/review-form';
+import { ContactHostComponent } from './pages/PropertyDetails/contact-host/contact-host.component';
 
 export const routes: Routes = [
   {
@@ -63,6 +64,10 @@ export const routes: Routes = [
       { path: 'update-profile/:id', component: UpdateProfile },
       { path: 'your-reviews', component: YourReviews },
       { path: 'notifications', component: Notifications },
+          {
+          path: 'contact-host',
+          component: ContactHostComponent
+        }   
     ],
   },
   {

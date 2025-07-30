@@ -1,9 +1,12 @@
+import { Host } from './../../../layout/host/host';
+import { Availability } from './../../availability-page/availability-page';
+import { Message } from './../../../core/models/Message';
 import { CommonPropInfoService } from './../../property-info/common-prop-info-service';
 import { CommonModule } from '@angular/common';
 import { Property } from './../../../core/models/Property'; // Assuming this path is correct
 import { PropertyService } from './../../../core/services/Property/property.service';
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, output, Output, ViewChild, viewChild, input, AfterViewInit } from '@angular/core';
-import { BookingService } from '../../../core/services/Booking/booking.service';
+import { BookingDTO, BookingService } from '../../../core/services/Booking/booking.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarAvailabilityDto, CalendarAvailabilityService } from '../../../core/services/CalendarAvailability/calendar-availability.service';
 import { OnChanges, SimpleChanges } from '@angular/core';
@@ -12,6 +15,20 @@ import { range } from '../BookingCalendar/BookingCalendar.component';
 import { DaterangepickerComponent, DaterangepickerDirective, NgxDaterangepickerMd} from 'ngx-daterangepicker-material';
 // import { DpDatePickerModule } from 'ng2-date-picker';
 import dayjs, { Dayjs } from 'dayjs';
+import { ChatService, ReservePropertyRequest } from '../../../core/services/Message/message.service';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { PaymentService } from '../../../core/services/Payment/payment.service';
+import { AuthService } from '../../../core/services/auth.service';
+
+
+export interface EditReservePropertyRequest {
+  propertyId: string;
+  checkInDate: undefined;
+  checkOutDate: undefined;
+  guestCount: number;
+  message: string;
+   hostId: string;
+}
 
 @Component({
   selector: 'app-reverse-section',
@@ -27,7 +44,12 @@ constructor(
   private bookingService: BookingService ,
   private calendarService: CalendarAvailabilityService,
   private cdr: ChangeDetectorRef,
-  private commonService: CommonPropInfoService
+  private commonService: CommonPropInfoService,
+  private chatService: ChatService  ,
+    private route: ActivatedRoute,  // used to read current route params
+  private router: Router ,    
+  private   paymentService :PaymentService,
+  private auth :AuthService
 ) {}
   
     @Input() checkIn?: dayjs.Dayjs;
@@ -37,8 +59,9 @@ constructor(
     @Output() guestChange = new EventEmitter<{
         adults: number;
         children: number;
-        infants: number;
+        // infants: number;
     }>();
+
 
     @Input() dateMap?: Map<string,CalendarAvailabilityDto>
     @Output() dateChange = new EventEmitter<range>()
@@ -46,8 +69,8 @@ constructor(
     @Input() guests: {
         adults: number;
         children: number;
-        infants: number;
-    } = { adults: 1, children: 0, infants: 0 }; // Default values
+        // infants: number;
+    } = { adults: 1, children: 0}; // Default values
 
     @ViewChild('picker',{read:DaterangepickerDirective}) picker!: DaterangepickerDirective;
 
@@ -56,21 +79,29 @@ constructor(
     clickedDate?:dayjs.Dayjs
     firstUnavailableDate?:dayjs.Dayjs
 
-  
-
-
-
-
     displayMonths = 2;
+
+    @Input() hostID!: string;
+    public Message: string = '';
+
+@Output() reserveClicked = new EventEmitter<any>();
+
+totalNights: number = 0;
+showReservationMessage: boolean = false;
+
+specialPriceFromAvailable !:any;
 
 
 ngOnInit() {
   this.commonService.clear$.subscribe(()=>{this.clear()})
     console.log("from ReserveOnInit",this.checkIn,this.checkOut)
+    console.log("property id ",this.propertyId)
+    console.log("host id ",this.hostID)
     this.selected = {
       startDate: undefined,
       endDate: undefined
     }
+    console.log("selected dates from on init reserve component  " , this.selected.startDate , "and " ,this.selected.endDate)
     // this.picker.nativeElement.nextElementSibling
     // console.log("this.picker.nativeElement.nextElementSibling",this.picker)
     // console.log("this.picker.nativeElement.nextElementSibling",this.elemnt)
@@ -78,42 +109,100 @@ ngOnInit() {
         console.error('Property ID is required for ReverseSectionComponent');
       }
       this.propertyService.getPropertyById(this.propertyId).subscribe({
-      next: (property: Property) => {
-        this.property = property;
-        this.maxGuests = property.maxGuests;
-        this.pricePerNight=property.pricePerNight
-        console.log("price per neight " ,this.pricePerNight) // ✅ update maxGuests from backend
-      },
-      error: (err) => {
-        console.error('Failed to load property data', err);
-      }
-    });
-    
-    // this.generateCalendarDays();
-    // console.log("form reserve-section onInit")
-  }
+        next: (property: Property) => {
+          this.property = property;
+          this.maxGuests = property.maxGuests;
+          this.pricePerNight=property.pricePerNight;
+          this.hostID=property.hostId;
+
+          console.log("price per neight " ,this.pricePerNight) // ✅ update maxGuests from backend
+        },
+        error: (err) => {
+          console.error('Failed to load property data', err);
+        }
+      });
+
+      // this.calendarService.getAvailability(this.propertyId, toString(this.selected.startDate?),this.selected.endDate)
+      
+      // this.generateCalendarDays();
+      console.log("form reserve-section onInit")
+    console.log("selected dates from on init reserve component  " , this.selected.startDate , "and " ,this.selected.endDate)
+
+    }
+    // this.onReserveClick();
+
+
+  onReserveClick() {
+  console.log("reserve clicked here ")
+  const queryParams  = {
+    propertyId: this.propertyId,
+    hostId: this.hostID,
+    checkIn: this.selected.startDate,
+    checkOutDate: this.checkOutDate,
+    guestCount: this.guests,
+    totalPrice: this.totalPrice,
+    // message: this.Message
+  };
+  console.log("property id",this.property.id )
+  console.log("host id",this.hostID )
+
+  console.log("check in ",this.checkInDate )
+  console.log("check out ",this.checkOutDate )
+  console.log("Number of guests ",this.guestCount )
+  console.log("total price ",this.totalPrice )
+
+
+    // this.http.post<{ sessionUrl: string }>('https://your-api.com/api/stripe/create-checkout-session', body)
+    // .subscribe({
+    //   next: (res) => {
+    //     const stripe = Stripe('your-publishable-key'); 
+    //     stripe.redirectToCheckout({ sessionId: res.sessionUrl });
+    //   },
+    //   error: (err) => {
+    //     console.error('Stripe checkout error:', err);
+    //   }
+    // });
+
+  
+  this.router.navigate(
+    [`/host-contact/${this.propertyId}/${this.hostID}`],
+    { queryParams  }
+  );
+}
+
 ngOnChanges(changes: SimpleChanges): void {
+
+      if(changes['checkIn'] && changes['checkOut'])
+      this.selected= {startDate:changes['checkIn'].currentValue,endDate:changes['checkOut'].currentValue}
+
+
   // console.log("this.picker.nativeElement.nextElementSibling",this.picker)
     // console.log("this.picker.nativeElement.nextElementSibling",this.elemnt)
-    let x = {startDate:undefined,endDate:undefined}
-      if (changes['checkIn']) {
-        // console.log('checkIn input changed:', this.checkIn);
-        x.startDate = changes['checkIn'].currentValue
-      }
-      if (changes['checkOut']) {
-        x.endDate = changes['checkOut'].currentValue
-        
-        // console.log('checkOut input changed:', this.checkOut);
-      }
+    // let x = {startDate:undefined,endDate:undefined}
+    //   if (changes['checkIn']) {
+    //     console.log('checkIn input changed:', this.checkIn);
+    //     x.startDate = changes['checkIn'].currentValue
 
-      this.selected=x
-      
+    //         // this.selected.startDate = moment(this.checkIn);
+    //   }
+    //   if (changes['checkOut']) {
+    //     x.endDate = changes['checkOut'].currentValue
+        
+    //     console.log('checkOut input changed:', this.checkOut);
+    //   }
+
+
+      console.log(this.selected.startDate ," fom on changes in reserve section",this.selected.endDate)
       // console.log(this.picker)
       this.picker.hide()
 
+
+      // this.onDatesChanged(x);
+      this.checkAvailabilityForSelectedRange();
       // this.picker.nativeElement.nextElementSibling.setStartDate( dayjs(x.startDate.toDate()));
       // this.picker.nativeElement.nextElementSibling.setEndDate( dayjs(x.endDate.toDate()));
   }
+
   @HostListener('window:resize', [])
   onResize() {
     this.updateDisplayMonths();
@@ -145,27 +234,35 @@ ngOnChanges(changes: SimpleChanges): void {
   }
 
   onStartDateChange(clickedDate:any){
-    
-    this.clickedDate = clickedDate?.startDate?? undefined
-    if(this.clickedDate)
-    {
-      let date ;
-      for(let i=1;  this.dateMap && i < this.dateMap.size  ;i++)
-      {
-        date =  this.dateMap?.get( dayjs(this.clickedDate)
-                                        .add(i,"day")
-                                        .toISOString().slice(0,19)
-                              ) 
+    // this.selected = {
+    //   startDate:undefined,
+    //   endDate:undefined
+    // }
 
-        if(date && !date.isAvailable){
-            this.firstUnavailableDate = dayjs(date.date)
-            console.log("firstUnavailableDate",this.firstUnavailableDate)
-            break;
-        }
-      }
-    }else
-      this.firstUnavailableDate = undefined
+    // this.onDatesChanged(this.selected);
+    // this.onClear();
+
+    // this.clickedDate = clickedDate?.startDate?? undefined
+    // if(this.clickedDate)
+    // {
+    //   let date ;
+    //   for(let i=1;  this.dateMap && i < this.dateMap.size  ;i++)
+    //   {
+    //     date =  this.dateMap?.get( dayjs(this.clickedDate)
+    //                                     .add(i,"day")
+    //                                     .toISOString().slice(0,19)
+    //                           ) 
+
+    //     if(date && !date.isAvailable){
+    //         this.firstUnavailableDate = dayjs(date.date)
+    //         console.log("firstUnavailableDate",this.firstUnavailableDate)
+    //         break;
+    //     }
+    //   }
+    // }else
+    //   this.firstUnavailableDate = undefined
   }
+
   onClear(){
     this.clear()
     this.commonService.clear()
@@ -180,11 +277,14 @@ ngOnChanges(changes: SimpleChanges): void {
     this.picker.picker.clear()
     
     this.dateChange.emit({startDate:this.selected.startDate,endDate:this.selected.startDate})
+
   }
   updateDisplayMonths() {
     this.displayMonths = window.innerWidth < 768 ? 1 : 2;
   }
     selected: { startDate?: dayjs.Dayjs, endDate?: dayjs.Dayjs } = {startDate:undefined,endDate:undefined};
+
+
       ranges: any = {
         Today: [moment().add(1,"month"), moment().add(1,"month")],
         Yesterday: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -196,7 +296,7 @@ ngOnChanges(changes: SimpleChanges): void {
           moment().subtract(1, 'month').endOf('month')
         ]
       };
-    
+
       locale = {
         format: 'YYYY-MM-D',
         applyLabel: 'Apply',
@@ -223,15 +323,17 @@ ngOnChanges(changes: SimpleChanges): void {
 
     isDateRangeAvailable: boolean | null = null;
     unavailableDates: string[] = [];
-
-    
-
   
   onDatesChanged(range:range){
     this.firstUnavailableDate = undefined
     this.clickedDate = undefined
     this.dateChange.emit(range)
     // this.picker.clear()
+    console.log("on dates changes " ,range)
+    console.log("on date changed ", this.clickedDate)
+
+  this.calculateTotalPrice();
+
   }
 
 
@@ -242,136 +344,6 @@ ngOnChanges(changes: SimpleChanges): void {
   nextMonthDays: any[] = [];
   showNextMonth: boolean = true; // Always show next month as per image
 
-  get currentMonthName(): string {
-    return this.currentMonth.toLocaleString('en-US', { month: 'long' });
-  }
-
-  get currentYear(): number {
-    return this.currentMonth.getFullYear();
-  }
-
-  get nextMonthName(): string {
-    const next = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 1);
-    return next.toLocaleString('en-US', { month: 'long' });
-  }
-
-  get nextMonthYear(): number {
-    const next = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 1);
-    return next.getFullYear();
-  }
-
-
-  
-
-  generateCalendarDays(): void {
-  const currentMonthStart = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1);
-  const nextMonthStart = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 1);
-
-  const currentMonthEnd = new Date(currentMonthStart.getFullYear(), currentMonthStart.getMonth() + 1, 0);
-  const nextMonthEnd = new Date(nextMonthStart.getFullYear(), nextMonthStart.getMonth() + 1, 0);
-
-  const format = (d: Date) => d.toISOString().split('T')[0];
-
-  this.calendarService.getAvailability(this.propertyId, format(currentMonthStart), format(nextMonthEnd))
-    .subscribe(data => {
-      // console.log("data from generatecalender days ")
-      const availabilityMap = new Map<string, CalendarAvailabilityDto>();
-      data.forEach(item => {
-        availabilityMap.set(item.date, item);
-      });
-
-      this.currentMonthDays = this.getDaysInMonth(currentMonthStart, availabilityMap);
-      this.nextMonthDays = this.getDaysInMonth(nextMonthStart, availabilityMap);
-    });
-}
-
-
-  getDaysInMonth(date: Date, availabilityMap: Map<string, CalendarAvailabilityDto>): any[] {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  
-    const year = date.getFullYear();
-  const month = date.getMonth();
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const days: any[] = [];
-
-  const startDayOfWeek = firstDay.getDay();
-  for (let i = 0; i < startDayOfWeek; i++) {
-    days.push({ empty: true });
-  }
-
-  for (let i = 1; i <= lastDay.getDate(); i++) {
-    const current = new Date(year, month, i);
-    const dateStr = current.toISOString().split('T')[0];
-    const availability = availabilityMap.get(dateStr);
-
-    days.push({
-      date: current,
-      available: availability ? availability.isAvailable : false,
-      price: availability?.price ?? null,
-      disabled: !availability?.isAvailable || current < today
-    });
-  }
-
-  return days;
-}
-
-  //when user select dates 
-  selectDate(date: Date): void {
-
-      const today = new Date();
-  today.setHours(0, 0, 0, 0); // Reset to midnight for accurate comparison
-
-  if (date < today) {
-    alert("You cannot select a past date.");
-    return;
-  }
-
-  const dateStr = date.toISOString().split('T')[0];
-  const allDays = [...this.currentMonthDays, ...this.nextMonthDays];
-  const selectedDay = allDays.find(d => d.date && this.isSameDay(d.date, date));
-
-  if (!selectedDay || selectedDay.disabled) {
-    alert("Selected date is unavailable.");
-    return;
-  }
-
-  if (!this.checkInDate || this.checkOutDate) {
-    this.checkInDate = date;
-    this.checkOutDate = null;
-    this.totalPrice = null;
-  } else if (date > this.checkInDate) {
-    if (this.validateDateRange(this.checkInDate, date)) {
-      this.checkOutDate = date;
-      this.calculateTotalPrice(this.checkInDate, this.checkOutDate);
-    } else {
-      const suggestion = this.findClosestAvailableRange(this.checkInDate, allDays);
-      alert(`Selected range is unavailable. Try from ${suggestion.start.toDateString()} to ${suggestion.end.toDateString()}`);
-    }
-  } else {
-    this.checkInDate = date;
-    this.checkOutDate = null;
-    this.totalPrice = null;
-  }
-}
-
-//with guest and neights
-calculateTotalPrice(start: Date, end: Date): void {
-  const allDays = [...this.currentMonthDays, ...this.nextMonthDays];
-  let total = 0;
-
-  for (let day of allDays) {
-    if (day.date >= start && day.date < end && day.price && day.available) {
-      total += day.price;
-    }
-  }
-
-  const guestCount = this.guests?.adults + this.guests?.children;
-  this.totalPrice = total * guestCount; // ✅ Multiply by number of guests
-  // console.log("toral price from calculate " ,this.totalPrice)
-  
-}
 
 
 
@@ -400,15 +372,15 @@ findClosestAvailableRange(start: Date, allDays: any[]): { start: Date, end: Date
             d1.getDate() === d2.getDate();
     }
 
-    validateDateRange(start: Date, end: Date): boolean {
-      const allDays = [...this.currentMonthDays, ...this.nextMonthDays];
-      for (let day of allDays) {
-        if (day.date && day.date > start && day.date < end && day.disabled) {
-          return false;
-        }
-      }
-      return true;
-    }
+    // validateDateRange(start: Date, end: Date): boolean {
+    //   const allDays = [...this.currentMonthDays, ...this.nextMonthDays];
+    //   for (let day of allDays) {
+    //     if (day.date && day.date > start && day.date < end && day.disabled) {
+    //       return false;
+    //     }
+    //   }
+    //   return true;
+    // }
 
 
     isCheckIn(date: Date): boolean {
@@ -422,146 +394,159 @@ findClosestAvailableRange(start: Date, allDays: any[]): { start: Date, end: Date
       console.log(" date that is parameter to ischeck out",date);
 
       return this.checkOutDate ? this.isSameDay(this.checkOutDate, date) : false;
-      console.log("checkin date ", this.checkOutDate)
     }
-
 
     toggleGuestDropdown(): void {
         this.showGuestDropdown = !this.showGuestDropdown;
       }
 
-    updateGuests(type: 'adults' | 'children' | 'infants', delta: number): void {
-        const newValue = this.guests[type] + delta;
-        const totalGuests = this.guests.adults + this.guests.children;
-
-        if (type === 'adults' && newValue >= 1 && (totalGuests + delta) <= this.maxGuests) {
-          this.guests.adults = newValue;
-          this.errorMessage = null;
-        } else if (type === 'children' && newValue >= 0 && (this.guests.adults + newValue) <= this.maxGuests) {
-          this.guests.children = newValue;
-          this.errorMessage = null;
-        } else if (type === 'infants' && newValue >= 0) {
-          this.guests.infants = newValue;
-          this.errorMessage = null;
-        } else {
-          this.errorMessage = `Maximum ${this.maxGuests} guests allowed (excluding infants).`;
-        }
-
-        this.guestChange.emit(this.guests);
-
-        this.guestCount = this.guests.adults + this.guests.children;
-    }
-
   get totalGuests(): string {
     const total = this.guests.adults + this.guests.children;
     let text = `${total} guest${total !== 1 ? 's' : ''}`;
-    if (this.guests.infants > 0) {
-      text += `, ${this.guests.infants} infant${this.guests.infants !== 1 ? 's' : ''}`;
-    }
+    // if (this.guests.infants > 0) {
+    //   text += `, ${this.guests.infants} infant${this.guests.infants !== 1 ? 's' : ''}`;
+    // }
     return text;
   }
 
 
-
-
-  //will use this again  if price come with value from calender availability 
+  updateGuests(type: 'adults' | 'children', delta: number): void {
+  const currentCount = this.guests[type];
+  const newCount = currentCount + delta;
+console.log(currentCount);
+  // Prevent going below limits of max in property
+  if ((type === 'adults' && newCount < 1) || (type === 'children' && newCount < 0)) {
+    return;
+  }
+  // Calculate new total guest count after applying delta
+  const newGuestTotals = {
+    ...this.guests,
+    [type]: newCount
+  };
+  this.calculateTotalPrice();
+  const totalGuests = newGuestTotals.adults + newGuestTotals.children;
+  // Check if total exceeds max allowed
+  if (totalGuests > this.maxGuests) {
+    this.errorMessage = `Maximum ${this.maxGuests} guests allowed (excluding infants).`;
+    return;
+  }
   
-   // Call this when user selects both check-in and check-out
-  // checkAvailabilityForSelectedRange(): void {
-  //   if (!this.checkInDate || !this.checkOutDate) return;
+  console.log(totalGuests);
 
-  //   const start = moment(this.checkInDate).format('YYYY-MM-DD');
-  //   const end = moment(this.checkOutDate).format('YYYY-MM-DD');
+  //  Only update guest data after validation
+  this.guests = newGuestTotals;
+  this.guestCount = totalGuests;
+  this.errorMessage = null;
+  this.guestChange.emit(this.guests);
 
-  //   this.calendarService.getAvailability(this.propertyId, start, end)
-  //     .subscribe((availability: CalendarAvailabilityDto[]) => {
-  //       console.log('Availability array:', availability);
+  // ✅ Recalculate price after updating data
+  this.calculateTotalPrice();
+  console.log("💰 Total price recalculated: ", this.totalPrice);
+}
 
-  //       const allAvailable = availability.every(day => day.isAvailable);
-  //       console.log('First Day:', availability[0]);
 
-  //       this.isDateRangeAvailable = allAvailable;
-  //       this.unavailableDates = availability
-  //               .filter(day => !day.isAvailable)
-  //                 .map(day => new Date(day.date).toISOString().split('T')[0]);
 
-  //         if(allAvailable) {
-  //         const guestCount = (this.guests?.adults || 0) +(this.guests?.children ||0);
+calculateTotalPrice(): void {
+  if (!this.selected?.startDate || !this.selected?.endDate) return;
 
-  //         const numberOfDays = availability.length;
+  const start = dayjs(this.selected.startDate);
+  const end = dayjs(this.selected.endDate);
+  const numberOfNights = end.diff(start, 'day');
+  if (numberOfNights <= 0) {
+    this.totalPrice = 0;
+    return;
+  }
+  const guestCount = (this.guests?.adults || 0) + (this.guests?.children || 0);
+  console.log(guestCount);
 
-  //          const pricePerNight = availability.length > 0 ? availability[0].price : 0;
-
-  //           this.totalPrice = pricePerNight * numberOfDays * guestCount;
-
-  //            console.log('Guests:', guestCount);
-  //       console.log('Days:', numberOfDays);
-  //       console.log('Price/Night:', pricePerNight);
-  //       console.log('Total Price:', this.totalPrice);
-
-  //         // this.guestCount =guestCount;
-
-  //         // this.totalPrice = 
-  //         //   availability.reduce((sum, day) => sum + day.price, 0)*this.guestCount;
-                
-  //           // console.log("guest count " , this.guestCount, "total price to " ,this.totalPrice);
-  //         }
-  //          else {
-  //           this.totalPrice = 0;
-  //         }
-
-  //     });
-
+  let totalNightly = 0;
+  // for (let d = start; d.isBefore(end); d = d.add(1, 'day')) {
+  //   const dateStr = d.format('YYYY-MM-DD');
+  //   const matchedDay = this.availability?.find(day => day.date === dateStr);
+  //   const priceForDay = matchedDay?.price ?? this.property.pricePerNight;
+  //   totalNightly += priceForDay;
   // }
+      const BasePrice = numberOfNights *this.pricePerNight;
+console.log("number of neights  from total price " ,numberOfNights)
+  this.totalPrice = BasePrice * guestCount;
+
+  console.log("💰 Total price recalculated   print :", this.totalPrice);
+}
 
 
-  checkAvailabilityForSelectedRange(): void {
-  if (!this.checkInDate || !this.checkOutDate) return;
+  message?:string;
 
-  const start = moment(this.checkInDate).format('YYYY-MM-DD');
-  const end = moment(this.checkOutDate).format('YYYY-MM-DD');
 
-  this.calendarService.getAvailability(this.propertyId, start, end)
-    .subscribe((availability: CalendarAvailabilityDto[]) => {
-      console.log('Availability array:', availability);
 
-      const allAvailable = availability.every(day => day.isAvailable);
-      this.isDateRangeAvailable = allAvailable;
+checkAvailabilityForSelectedRange(): void {
 
-      this.unavailableDates = availability
-        .filter(day => !day.isAvailable)
-        .map(day => new Date(day.date).toISOString().split('T')[0]);
+      console.log("reserve button clicked ");
+      console.log(" elected range ",this.selected);
+    const startDate = dayjs(this.selected.startDate);
+    const endDate = dayjs(this.selected.endDate);
+      console.log("before format " ,startDate)
+      console.log("before format " ,endDate)
+    const formattedStart = startDate.format('YYYY-MM-DD');
+    const formattedEnd = endDate.format('YYYY-MM-DD');
+      console.log("format start" ,formattedStart)
+      console.log("format end" ,formattedEnd)
 
-      if (allAvailable) {
-        const guestCount = (this.guests?.adults || 0) + (this.guests?.children || 0);
-        const numberOfNights = moment(this.checkOutDate).diff(moment(this.checkInDate), 'days');
 
-        const pricePerNight = this.property.pricePerNight || 0;
+    const guestCount = (this.guests?.adults || 0) + (this.guests?.children || 0);
+    console.log(guestCount);
+      const clicked =dayjs(this.clickedDate).format('YYYY-MM-DD');
 
-        // const totalBasePrice = availability
-        //   .filter(day => day.isAvailable)
-        //   .reduce((sum, day) => sum + (day.price || 0), 0);
+    // this.calendarService.getAvailability(this.propertyId, formattedStart, formattedEnd).subscribe((availability: CalendarAvailabilityDto[]) => {
+    // const allAvailable = availability.every(day => day.isAvailable);
+    // this.isDateRangeAvailable = allAvailable;
 
-        this.totalPrice = (guestCount * pricePerNight) *numberOfNights;
+      // if(startDate ==undefined || endDate == undefined) return;
 
-        console.log('Guests:', guestCount);
-        console.log('Nights:', numberOfNights);
-        console.log('Total Base Price:', pricePerNight);
-        console.log('Total Price:', this.totalPrice);
-      } else {
-        this.totalPrice = 0;
-        console.log("not available " , 0);
+      this.calculateTotalPrice(); // assumes this.totalPrice is calculated
+      let userId=this.auth.userId;
+
+      if(!userId){
+        console.log("there is no userid") //login
+        return;
       }
-    });
+        let bookingDTO: BookingDTO = {
+          propertyId: this.propertyId,
+          userId:userId,
+          checkInDate: startDate.toDate().toUTCString(),
+          checkOutDate: endDate.toDate().toUTCString(),
+          numberOfGuests: guestCount,
+        };
+        
+    this.bookingService.createBooking(bookingDTO).subscribe(bookingRes => {
+        console.log("booking result" ,bookingRes);
+      
+      const bookingId = bookingRes.data.id;
+      const totalAmount = bookingRes.data.totalPrice;
+
+      this.paymentService.createCheckoutSession(bookingId, totalAmount, 'usd').subscribe({
+        next: (res) => {
+          console.log("payment service ",res);
+
+          window.location.href = res.data.checkoutUrl;
+
+        },
+        error: (err) => {
+          console.error("Checkout session creation failed", err);
+        }
+      });
+
+});
+
+
 }
 
 
 
+
+
+
+
+
+
 }
-
-
-
-
-
-
 
