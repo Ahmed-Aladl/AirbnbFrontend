@@ -19,22 +19,16 @@ h2 {
   border-radius: 10px;
   margin-bottom: 15px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  background-color: var(--active);
 }
 
 .comment {
   font-weight: bold;
   font-size: 1.1rem;
-  margin-top: 10px;
 }
 
 .private-comment {
   font-style: italic;
   margin-top: 5px;
-  background-color: #ffca281a;
-  padding: 8px;
-  border-left: 4px solid #ffca28;
-  border-radius: 5px;
 }
 
 .ratings {
@@ -43,19 +37,4 @@ h2 {
   gap: 8px;
   margin-top: 10px;
   font-size: 0.9rem;
-}
-
-.stars-date {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.stars i {
-  color: #fbc02d;
-  margin-right: 2px;
-}
-
-.review-date {
-  font-size: 0.85rem;
 }

@@ -1,8 +1,8 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PropertyFormStorageService } from '../../../../core/services/ListingWizard/property-form-storage.service';
 import { ListingWizardService } from '../../../../core/services/ListingWizard/listing-wizard.service';
 import { Subscription } from 'rxjs';
-import { PropertyFormStorageService } from '../../services/property-form-storage.service';
 
 @Component({
   selector: 'app-step2-4-title',

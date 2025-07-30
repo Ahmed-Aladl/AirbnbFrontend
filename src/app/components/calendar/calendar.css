@@ -109,7 +109,7 @@
   overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: #c3bfbf #fff;
-  width: max-content !important;
+  width: max-content!important;
 }
 
 .view-dropdown-2.show {
@@ -463,3 +463,4 @@
   background: white;
   border-color: #ddd;
 }
+

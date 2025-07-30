@@ -26,14 +26,9 @@
     <div class="header-controls">
       <!-- View Toggle -->
       <div class="view-toggle">
-        <button
-          class="view-toggle-btn"
-          (click)="toggleViewMode()"
-          [title]="
-            viewMode === 'grid' ? 'Switch to table view' : 'Switch to grid view'
-          "
-        >
-          {{ viewMode === "grid" ? "⊞" : "☰" }}
+        <button class="view-toggle-btn" (click)="toggleViewMode()"
+          [title]="viewMode === 'grid' ? 'Switch to table view' : 'Switch to grid view'">
+          {{ viewMode === 'grid' ? '⊞' : '☰' }}
         </button>
       </div>
       <button class="add-listing-btn" routerLink="/listing-wizard">+</button>
@@ -41,20 +36,13 @@
   </div>
 
   <!-- Properties Grid View -->
-  <div
-    *ngIf="properties.length > 0"
-    class="properties-grid"
-    [class.table-view]="viewMode === 'table'"
-  >
-    <div
-      *ngFor="let property of properties; trackBy: trackById"
-      class="property-card"
-    >
+  <div *ngIf="properties.length > 0" class="properties-grid" [class.table-view]="viewMode === 'table'">
+    <div *ngFor="let property of properties; trackBy: trackById" class="property-card">
       <div class="property-image-container">
         <div class="property-image">
           <ng-container *ngIf="hasValidImage(property)">
-            <img [src]="getCoverImageUrl(property)" [alt]="property.title" />
-            <div class="image-placeholder" style="display: none">🏠</div>
+            <img [src]="getCoverImageUrl(property)" [alt]="property.title">
+            <div class="image-placeholder" style="display: none;">🏠</div>
           </ng-container>
           <ng-container *ngIf="!hasValidImage(property)">
             <div class="image-placeholder">🏠</div>
@@ -65,26 +53,15 @@
       <!-- Property Content -->
       <div class="property-content">
         <h3 class="property-title">{{ property.title }}</h3>
-        <p class="property-location">
-          Home in {{ property.city }}, {{ property.state }},
-          {{ property.country }}
-        </p>
-
+        <p class="property-location">Home in {{ property.city }}, {{ property.state }}, {{ property.country }}</p>
+        
         <!-- Navigation Buttons -->
         <div class="property-actions">
-          <button
-            class="dark-btn edit-btn"
-            (click)="navigateToEditProperty(property.id)"
-            title="Edit Property"
-          >
+          <button class="dark-btn edit-btn" (click)="navigateToEditProperty(property.id)" title="Edit Property">
             <span class="btn-icon">✏️</span>
             Edit Property
           </button>
-          <button
-            class="dark-btn bookings-btn"
-            (click)="navigateToPropertyBookings(property.id)"
-            title="View Bookings"
-          >
+          <button class="dark-btn bookings-btn" (click)="navigateToPropertyBookings(property.id)" title="View Bookings">
             <span class="btn-icon">📅</span>
             View Bookings
           </button>
@@ -94,11 +71,7 @@
   </div>
 
   <!-- Properties Table View -->
-  <table
-    *ngIf="properties.length > 0"
-    class="properties-table"
-    [class.active]="viewMode === 'table'"
-  >
+  <table *ngIf="properties.length > 0" class="properties-table" [class.active]="viewMode === 'table'">
     <thead>
       <tr>
         <th>Listing</th>
@@ -111,14 +84,11 @@
     <tbody>
       <tr *ngFor="let property of properties; trackBy: trackById">
         <td>
-          <div style="display: flex; align-items: center; gap: 16px">
+          <div style="display: flex; align-items: center; gap: 16px;">
             <div class="table-property-image">
               <ng-container *ngIf="hasValidImage(property)">
-                <img
-                  [src]="getCoverImageUrl(property)"
-                  [alt]="property.title"
-                />
-                <div class="image-placeholder" style="display: none">🏠</div>
+                <img [src]="getCoverImageUrl(property)" [alt]="property.title">
+                <div class="image-placeholder" style="display: none;">🏠</div>
               </ng-container>
               <ng-container *ngIf="!hasValidImage(property)">
                 <div class="image-placeholder">🏠</div>
@@ -128,35 +98,18 @@
           </div>
         </td>
         <td><span class="table-property-type">Home</span></td>
+        <td><span class="table-property-location">{{ property.city }}, {{ property.state }}, {{ property.country }}</span></td>
         <td>
-          <span class="table-property-location"
-            >{{ property.city }}, {{ property.state }},
-            {{ property.country }}</span
-          >
-        </td>
-        <td>
-          <span
-            class="status-badge"
-            [class.active]="property.isActive"
-            [class.inactive]="!property.isActive"
-          >
-            {{ property.isActive ? "Active" : "Inactive" }}
+          <span class="status-badge" [class.active]="property.isActive" [class.inactive]="!property.isActive">
+            {{ property.isActive ? 'Active' : 'Inactive' }}
           </span>
         </td>
         <td>
           <div class="table-actions">
-            <button
-              class="dark-btn-small edit-btn"
-              (click)="navigateToEditProperty(property.id)"
-              title="Edit Property"
-            >
+            <button class="dark-btn-small edit-btn" (click)="navigateToEditProperty(property.id)" title="Edit Property">
               ✏️
             </button>
-            <button
-              class="dark-btn-small bookings-btn"
-              (click)="navigateToPropertyBookings(property.id)"
-              title="View Bookings"
-            >
+            <button class="dark-btn-small bookings-btn" (click)="navigateToPropertyBookings(property.id)" title="View Bookings">
               📅
             </button>
           </div>
@@ -169,11 +122,9 @@
   <div *ngIf="properties.length === 0" class="empty-state">
     <div class="empty-icon">🏡</div>
     <h3 class="empty-title">No properties yet</h3>
-    <p class="empty-description">
-      Start earning by listing your first property
-    </p>
-    <button class="btn btn-dark" routerLink="/listing-wizard">
-      <span class="plus-icon">+</span> Add your first listing
+    <p class="empty-description">Start earning by listing your first property</p>
+    <button class="btn btn-dark"  routerLink="/listing-wizard"  >
+      <span class="plus-icon" >+</span> Add your first listing
     </button>
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { PropertyFormStorageService } from '../../../../core/services/ListingWizard/property-form-storage.service';
 import { ListingWizardService } from '../../../../core/services/ListingWizard/listing-wizard.service';
 import { Subscription } from 'rxjs';
-import { PropertyFormStorageService } from '../../services/property-form-storage.service';
 
 @Component({
   selector: 'app-step1-5-basic-about',

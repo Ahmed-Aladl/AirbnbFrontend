@@ -26,9 +26,9 @@ overflow-x: hidden;
 }
 
 /* .bi-heart{
-    border: 2px solid #ff385c;
-  border-radius: 50%;
-
+    border: 2px solid #ff385c;   
+  border-radius: 50%;  
+  
 } */
 
 /* .bi-heart-fill{
@@ -47,8 +47,8 @@ overflow-x: hidden;
   gap: 6px;
   background: white;
   border: 24px;
-  font-weight: bold;
-  text-decoration: underline;
+  font-weight: bold;              
+  text-decoration: underline;  
   color: #222;
   font-weight: 600;
   font-size: 14px;
@@ -89,7 +89,7 @@ overflow-x: hidden;
 .main-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 12px 0 0 12px;
 }
 
@@ -105,13 +105,13 @@ overflow-x: hidden;
 .grid-image {
   position: relative;
   overflow: hidden;
-  border-radius: 0 12px 0 0;
+  border-radius: 0 12px 0 0; 
 }
 
 .grid-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   /* border-radius: 0;  */
 }
 
@@ -160,7 +160,7 @@ overflow-x: hidden;
 .main-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 12px 0 0 12px;
   transition: transform 0.3s ease;
 }
@@ -201,14 +201,14 @@ overflow-x: hidden;
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0); 
   transition: background-color 0.3s ease;
   z-index: 1;
 }
 
 .grid-image:hover::after,
 .main-image:hover::after {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.2); 
 }
 
 .grid-image img,
@@ -289,7 +289,7 @@ overflow-x: hidden;
 .rare-find-description {
   font-size: 14px;
   color: #171616;
-}
+} 
 
 
 
@@ -298,7 +298,7 @@ overflow-x: hidden;
   .gallery-details-wrapper {
     grid-template-columns: 1fr;
   }
-
+  
   .property-details-section {
     border-left: none;
     border-top: 1px solid #ebebeb;

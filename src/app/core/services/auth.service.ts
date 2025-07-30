@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject } from 'rxjs';
-import { environment } from '../../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
-
-export interface RefreshTokenResponse {
-  accessToken: string;
-  refreshToken: string;
-}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -21,29 +14,30 @@ export class AuthService {
   private userIdSubject = new BehaviorSubject<string | null>(null);
   private roleSubject = new BehaviorSubject<string[] | null>(null);
 
-  constructor(private cookieService: CookieService, private http: HttpClient) {
-    this.accessTokenSubject.next(
-      this.cookieService.get(this.accessTokenKey) || null
-    );
-    this.refreshTokenSubject.next(
-      this.cookieService.get(this.refreshTokenKey) || null
-    );
-    this.userIdSubject.next(this.cookieService.get(this.userIdKey) || null);
+  constructor(private cookieService: CookieService) {
+  this.accessTokenSubject.next(
+    this.cookieService.get(this.accessTokenKey) || null
+  );
+  this.refreshTokenSubject.next(
+    this.cookieService.get(this.refreshTokenKey) || null
+  );
+  this.userIdSubject.next(this.cookieService.get(this.userIdKey) || null);
 
-    const rolesJson = this.cookieService.get(this.roleKey);
-    if (rolesJson) {
-      const roles = JSON.parse(rolesJson);
-      this.roleSubject.next(roles);
-    }
+  const rolesJson = this.cookieService.get(this.roleKey);
+  if (rolesJson) {
+    const roles = JSON.parse(rolesJson);
+    this.roleSubject.next(roles);
   }
+}
+
 
   setAccessToken(token: string) {
-    this.cookieService.set(this.accessTokenKey, token, 7, '/');
+    // this.cookieService.set(this.accessTokenKey, token, 7, '/');
     this.accessTokenSubject.next(token);
   }
 
   setRefreshToken(token: string) {
-    this.cookieService.set(this.refreshTokenKey, token, 7, '/');
+    // this.cookieService.set(this.refreshTokenKey, token, 7, '/');
     this.refreshTokenSubject.next(token);
   }
 
@@ -54,6 +48,7 @@ export class AuthService {
 
   setRole(roles: { name: string }[]) {
     const names = roles.map((r) => r.name);
+    console.log(names)
     sessionStorage.setItem(this.roleKey, JSON.stringify(names));
     this.cookieService.set(this.roleKey, JSON.stringify(names), 7, '/');
     this.roleSubject.next(names);
@@ -88,14 +83,6 @@ export class AuthService {
 
   get refreshToken$() {
     return this.refreshTokenSubject.asObservable();
-  }
-  get refreshTokenBackend$() {
-    return this.http.post<RefreshTokenResponse>(
-      environment.baseUrl + '/user/refresh-token',
-      {},
-      { withCredentials: true }
-    );
-    // return this.refreshTokenSubject.asObservable()
   }
 
   get userId$() {

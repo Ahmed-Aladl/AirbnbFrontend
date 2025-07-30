@@ -21,14 +21,14 @@ import moment from 'moment';
 })
 export class MapLocationComponent implements OnInit {
  @Input() propertyId!: number;
-
+ 
 
 
   options!: L.MapOptions;
   layers: L.Layer[] = [];
   // center!: L.LatLngExpression;
   zoom: number = 13;
-  center!: L.LatLng;
+  center!: L.LatLng; 
 
   title = '';
   city = '';

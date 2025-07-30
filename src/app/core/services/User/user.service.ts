@@ -14,16 +14,14 @@ export class UserService {
 
   login(payload: { email: string; password: string }): Observable<any> {
     console.log(payload);
-    return this.http
-      .post(`${this.baseUrl}/login`, payload, { withCredentials: true })
-      .pipe(
-        tap((response: any) => {
-          this.authService.setAccessToken(response.accessToken);
-          this.authService.setRefreshToken(response.refreshToken);
-          this.authService.setUserId(response.userId);
-          this.authService.setRole(response.roles);
-        })
-      );
+    return this.http.post(`${this.baseUrl}/login`, payload,{withCredentials:true}).pipe(
+      tap((response: any) => {
+        this.authService.setAccessToken(response.accessToken);
+        this.authService.setRefreshToken(response.refreshToken);
+        this.authService.setUserId(response.userId);
+        this.authService.setRole(response.roles);
+      })
+    );
   }
 
   register(payload: { email: string; password: string }): Observable<any> {
@@ -93,32 +91,10 @@ export class UserService {
       })
     );
   }
-  uploadProfileImage(payload: { userId: string; file: File }): Observable<any> {
-    const formData = new FormData();
-    formData.append('UserId', payload.userId);
-    formData.append('File', payload.file);
-
-    return this.http.post(`${this.baseUrl}/profile/image`, formData).pipe(
-      tap((response: any) => {
-        console.log(response);
-      })
-    );
-  }
-
   Logout(): Observable<any> {
     return this.http.post(`${this.baseUrl}/logout`, {}).pipe(
       tap((response: any) => {
         console.log(response);
-      })
-    );
-  }
-
-  updateToHostRole(userId: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/profile/${userId}/role`, {}).pipe(
-      tap((response: any) => {
-        if (response.roles) {
-          this.authService.setRole(response.roles);
-        }
       })
     );
   }

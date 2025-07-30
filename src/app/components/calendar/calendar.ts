@@ -1,13 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   format,
@@ -22,7 +13,7 @@ import {
   subMonths,
   isAfter,
   isBefore,
-  startOfDay,
+  startOfDay
 } from 'date-fns';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
@@ -108,6 +99,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     this.updateCaches();
     this.processAllData();
 
+
     this.hostId = this.authService.userId;
     this.loadHostProperties();
   }
@@ -174,8 +166,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       const today = startOfDay(new Date());
 
       const isDisabled = isBefore(day.date, today);
-      const isAvailable =
-        !isDisabled && (availability ? availability.available : true);
+      const isAvailable = !isDisabled && (availability ? availability.available : true);
       const isSelected = this.selectedDatesSet.has(dateKey);
       const isHighlighted = this.calculateIsHighlighted(day.date);
       const price = availability ? availability.price : null;
@@ -191,6 +182,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       };
     });
 
+
     return {
       month: monthDate,
       days: processedDays,
@@ -204,6 +196,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     );
     return isAfter(date, start) && isBefore(date, end);
   }
+
 
   selectDate(date: Date) {
     const today = startOfDay(new Date());
@@ -312,6 +305,10 @@ export class CalendarComponent implements OnInit, OnChanges {
     return next.getFullYear() === this.currentYear;
   }
 
+
+
+
+
   @Output() propertySelected = new EventEmitter<string>();
   properties: PropertyDisplayDTO[] = [];
   isLoading = true;
@@ -322,7 +319,8 @@ export class CalendarComponent implements OnInit, OnChanges {
     private hostPropertiesService: HostPropertiesService,
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) { }
+
 
   loadHostProperties(): void {
     // Check if hostId is available
@@ -348,17 +346,15 @@ export class CalendarComponent implements OnInit, OnChanges {
         this.error = 'Failed to load properties. Please try again later.';
         this.isLoading = false;
         console.error('Error loading properties:', err);
-      },
+      }
     });
   }
   get selectedPropertyTitle(): string {
-    const property = this.properties.find(
-      (p) => p.id.toString() === this.selectedPropertyId
-    );
+    const property = this.properties.find(p => p.id.toString() === this.selectedPropertyId);
     return property?.title || 'Select Property';
   }
   getPropertyImage(property: PropertyDisplayDTO): string {
-    const cover = property.images?.find((img) => img.isCover && !img.isDeleted);
+    const cover = property.images?.find(img => img.isCover && !img.isDeleted);
 
     if (cover?.imageUrl) {
       return `${environment.base}${cover.imageUrl}`;
@@ -367,4 +363,5 @@ export class CalendarComponent implements OnInit, OnChanges {
     // fallback image
     return 'assets/images/deafult.png';
   }
+
 }

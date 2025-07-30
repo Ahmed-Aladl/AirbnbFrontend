@@ -5,9 +5,9 @@ import { map, Observable } from 'rxjs';
 import { Property } from '../../models/Property';
 import { environment } from '../../../../environments/environment.development';
 import { PropertyImage } from '../../models/PropertyImage';
+
 import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { catchError } from 'rxjs';
-import { PropertyDisplayWithHostDataDto ,PropertyDisplayDTO as PropertyDisplayDtoFromModels} from '../../../pages/add-property/models/property.model';
 
 
 interface ApiResponse<T> {
@@ -109,14 +109,6 @@ export class PropertyService {
     return this.http.get<PropertyTypeDto[]>(this.propertyTypeUrl, { withCredentials: true });
   }
 
-  getAllForDashboard():Observable<PropertyDisplayWithHostDataDto[]>{
-        return this.http.get<Result<PropertyDisplayWithHostDataDto[]>>(`${this.baseUrl}/dashboard`).pipe(map(res=>res.data));
-    }
-  
-  getByIdWithCover(propId:number):Observable<PropertyDisplayDtoFromModels>{
-    return this.http.get<Result<PropertyDisplayDtoFromModels>>(`${this.baseUrl}/cover/${propId}`)
-                        .pipe(map(res=> res.data))
-  }
   getImagesByPropertyId(id: number): Observable<PropertyImage[]> {
     return this.http.get<Result<PropertyImage[]>>(`${this.baseUrl}/${id}/images`).pipe(
       map(res => res.data)
@@ -154,13 +146,6 @@ export class PropertyService {
     return this.http.put<Result<PropertyDisplayDTO>>(this.baseUrl, propertyData, {
       withCredentials: true // Add credentials for authorization
     });
-  }
-  reject(propId:number):Observable<Result<boolean>>{
-    return this.http.put<Result<boolean>>(`${this.baseUrl}/reject/${propId}`,{})
-  }
-
-  accept(propId:number):Observable<Result<boolean>>{
-    return this.http.put<Result<boolean>>(`${this.baseUrl}/accept/${propId}`,{})
   }
 
   // UPDATED: Update specific property section with complete DTO

@@ -124,18 +124,6 @@ body.dLTR {
   z-index: 20000000000000 !important;
 }
 
-.message-content a.view-link {
-  color: #007bff !important;
-  text-decoration: underline !important;
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.message-content a.view-link:hover {
-  color: #0056b3 !important;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
 }

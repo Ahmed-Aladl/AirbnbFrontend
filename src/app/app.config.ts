@@ -5,7 +5,7 @@ import {
   provideZonelessChangeDetection
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi ,withFetch} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { routes } from './app.routes';
 import {
   TranslateLoader,
@@ -40,8 +40,8 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NgxDaterangepickerMd.forRoot()),
 
     provideZoneChangeDetection(),
-    provideHttpClient(withFetch()),
 
+    
     //  importProvidersFrom(GoogleMapsModule)
     // provideZonelessChangeDetection(),
   ],

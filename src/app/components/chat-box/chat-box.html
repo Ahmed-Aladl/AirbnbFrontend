@@ -3,7 +3,7 @@
   <div class="chat-header">
     <div class="profile-section">
       <img [src]="hostProfileImage" class="profile-img" alt="Host" />
-      <span class="host-name">{{ hostName }}</span>
+      <span class="host-name">{{hostName}}</span>
     </div>
   </div>
 
@@ -33,28 +33,25 @@
     >
       <!-- Date separator -->
       <div *ngIf="item.type === 'date'" class="date-separator">
-        <span class="date-label">{{ item.label }} </span>
+        <span class="date-label">{{item.label}} </span>
       </div>
 
       <!-- Status message -->
       <div *ngIf="item.type === 'status'" class="status-message">
         <span>
-          {{ item.content }}
+          {{item.content}}
         </span>
         <span
-          style="color: #008489; text-decoration: underline; cursor: pointer"
+          style="color: #008489; text-decoration: underline; cursor: pointer;"
         >
-          {{ item.action }}
+          {{item.action}}
         </span>
       </div>
 
       <!-- Message -->
       <div
         *ngIf="item.type === 'message'"
-        [ngClass]="{
-          'message-right': item.isCurrentUser,
-          'message-left': !item.isCurrentUser
-        }"
+        [ngClass]="{'message-right': item.isCurrentUser, 'message-left': !item.isCurrentUser}"
       >
         <!-- Host info (only for host messages) -->
         <div *ngIf="!item.isCurrentUser" class="host-info">
@@ -62,19 +59,16 @@
             [src]="hostProfileImage"
             class="profile-img"
             alt="Host"
-            style="width: 24px; height: 24px"
+            style="width: 24px; height: 24px;"
           />
-          <span class="host-label">{{ hostName }}</span>
-          <span class="timestamp">{{ item.timestamp }}</span>
+          <span class="host-label">{{hostName}}</span>
+          <span class="timestamp">{{item.timestamp}}</span>
         </div>
 
         <!-- Message bubble -->
         <div
           class="message-bubble"
-          [ngClass]="{
-            'current-user-bubble': item.isCurrentUser,
-            'other-person-bubble': !item.isCurrentUser
-          }"
+          [ngClass]="{'current-user-bubble': item.isCurrentUser, 'other-person-bubble': !item.isCurrentUser}"
         >
           <span [innerHTML]="item.content"></span>
 
@@ -83,9 +77,7 @@
             class="emoji-button"
             (click)="toggleEmojiPicker(i, $event)"
             type="button"
-            [ngStyle]="
-              !item.isCurrentUser ? { left: '105%' } : { right: '105%' }
-            "
+            [ngStyle]="!item.isCurrentUser ? {'left': '105%'} : {'right': '105%'}"
           >
             😊
 
@@ -94,9 +86,7 @@
               *ngIf="showEmojiPicker === i"
               class="emoji-picker"
               (click)="$event.stopPropagation()"
-              [ngStyle]="
-                !item.isCurrentUser ? { left: '110%' } : { right: '110%' }
-              "
+              [ngStyle]="!item.isCurrentUser ? {'left': '110%'} : {'right': '110%'}"
             >
               <button
                 *ngFor="let emoji of emojiOptions"
@@ -104,7 +94,7 @@
                 (click)="addReaction(i, emoji, $event)"
                 type="button"
               >
-                {{ emoji }}
+                {{emoji}}
               </button>
             </div>
           </button>
@@ -113,24 +103,24 @@
           <div
             *ngIf="item.reaction"
             class="message-reaction"
-            [ngStyle]="!item.isCurrentUser ? { right: '8px' } : { left: '8px' }"
+            [ngStyle]="!item.isCurrentUser ? {'right': '8px'} : {'left': '8px'}"
             [ngClass]="!item.isCurrentUser ? 'reaction-host' : 'reaction-user'"
           >
-            {{ item.reaction }}
+            {{item.reaction}}
           </div>
         </div>
 
         <!-- Timestamp for user messages -->
         <div *ngIf="item.isCurrentUser" class="user-timestamp">
-          <span class="timestamp">{{ item.timestamp }}</span>
+          <span class="timestamp">{{item.timestamp}}</span>
           <span *ngIf="item.readBy" class="read-status"
-            >Read by {{ item.readBy }}</span
+            >Read by {{item.readBy}}</span
           >
           <img
             *ngIf="item.readBy && i === getLastReadMessageIndex()"
             [src]="hostProfileImage"
             class="read-avatar"
-            alt="Read by {{ item.readBy }}"
+            alt="Read by {{item.readBy}}"
           />
         </div>
       </div>

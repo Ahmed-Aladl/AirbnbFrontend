@@ -39,11 +39,19 @@ export class Notifications implements OnInit, OnDestroy {
     const userId = this.authService.userId || '';
     const token = this.authService.accessToken || '';
 
+    console.log(userId, token);
+    // if (!userId || !token) {
+    //   this.error = 'User not authenticated';
+    //   return;
+    // }
+
     this.loading = true;
     this.error = null;
 
+    // Start SignalR connection
     this.notificationService.startConnection(token);
 
+    // Load existing notifications
     const notificationsSub = this.notificationService.getNotificationsByUserId(userId).subscribe({
       next: (notifications) => {
         this.notifications = notifications;

@@ -1,8 +1,10 @@
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PhotosService } from '../../../../core/services/photos.service';
 import { ListingWizardService } from '../../../../core/services/ListingWizard/listing-wizard.service';
+import { PropertyFormStorageService } from '../../../../core/services/ListingWizard/property-form-storage.service';
 import { Subscription } from 'rxjs';
-import { PropertyFormStorageService } from '../../../add-property/services/property-form-storage.service';
 
 @Component({
   selector: 'app-step2-3-3-photos-ta-da',
@@ -12,26 +14,23 @@ import { PropertyFormStorageService } from '../../../add-property/services/prope
 })
 export class Step233PhotosTaDa implements OnInit, OnDestroy {
   private subscription!: Subscription;
-  photos: string[] = [];
-  dragStartIndex: number | null = null;
 
   constructor(
+    public photosService: PhotosService,
     private formStorage: PropertyFormStorageService,
     private wizardService: ListingWizardService
   ) {}
 
+  dragStartIndex: number | null = null;
+
   ngOnInit(): void {
+    // Load saved data
     const savedData = this.formStorage.getStepData('step2-3-3');
     if (savedData?.photos) {
-      this.photos = [...savedData.photos];
+      this.photosService.photos = savedData.photos;
     }
 
-    const imageFiles = this.formStorage.getImageFiles();
-    imageFiles.forEach(file => {
-      const objectUrl = URL.createObjectURL(file);
-      this.photos.push(objectUrl);
-    });
-
+    // Subscribe to next step event
     this.subscription = this.wizardService.nextStep$.subscribe(() => {
       this.saveFormData();
     });
@@ -41,18 +40,11 @@ export class Step233PhotosTaDa implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-
-    // Clean up object URLs
-    this.photos.forEach(photo => {
-      if (photo.startsWith('blob:')) {
-        URL.revokeObjectURL(photo);
-      }
-    });
   }
 
   private saveFormData(): void {
     const data = {
-      photos: this.photos
+      photos: this.photosService.photos
     };
     this.formStorage.saveFormData('step2-3-3', data);
   }
@@ -60,28 +52,26 @@ export class Step233PhotosTaDa implements OnInit, OnDestroy {
   addPhotos(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input?.files) return;
-    const files = Array.from(input.files);
-
-    files.forEach(file => {
+    const files = input.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
       if (file.type.startsWith('image/')) {
-        const objectUrl = URL.createObjectURL(file);
-        this.photos.push(objectUrl);
-        const currentFiles = this.formStorage.getImageFiles();
-        this.formStorage.setImageFiles([...currentFiles, file]);
+        this.readFile(file);
       }
-    });
-
+    }
     this.saveFormData();
   }
 
+  private readFile(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.photosService.addPhoto(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
   removePhoto(index: number): void {
-    this.photos.splice(index, 1);
-
-    const currentFiles = this.formStorage.getImageFiles();
-    const updatedFiles = [...currentFiles];
-    updatedFiles.splice(index, 1);
-    this.formStorage.setImageFiles(updatedFiles);
-
+    this.photosService.removePhoto(index);
     this.saveFormData();
   }
 
@@ -91,14 +81,7 @@ export class Step233PhotosTaDa implements OnInit, OnDestroy {
 
   onDrop(index: number): void {
     if (this.dragStartIndex !== null && this.dragStartIndex !== index) {
-      const movedPhoto = this.photos.splice(this.dragStartIndex, 1)[0];
-      this.photos.splice(index, 0, movedPhoto);
-
-      const imageFiles = this.formStorage.getImageFiles();
-      const movedFile = imageFiles.splice(this.dragStartIndex, 1)[0];
-      imageFiles.splice(index, 0, movedFile);
-      this.formStorage.setImageFiles(imageFiles);
-
+      this.photosService.reorderPhotos(this.dragStartIndex, index);
       this.saveFormData();
     }
     this.dragStartIndex = null;

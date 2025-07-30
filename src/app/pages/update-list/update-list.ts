@@ -66,9 +66,8 @@ export class UpdateList implements OnInit, OnDestroy {
 
   // Menu sections
   menuSections: MenuSection[] = [
-        { id: 'title', label: 'Title', icon: '📝', isActive: true, hasChanges: false, isSaving: false, isValid: true },
-
-    { id: 'photos', label: 'Photos', icon: '📸', isActive: false, hasChanges: false, isSaving: false, isValid: true },
+    { id: 'photos', label: 'Photos', icon: '📸', isActive: true, hasChanges: false, isSaving: false, isValid: true },
+    { id: 'title', label: 'Title', icon: '📝', isActive: false, hasChanges: false, isSaving: false, isValid: true },
     { id: 'propertyId', label: 'Property type', icon: '🏠', isActive: false, hasChanges: false, isSaving: false, isValid: true },
       { id: 'rooms', label: 'Rooms & beds', icon: '🛏️', isActive: false, hasChanges: false, isSaving: false, isValid: true }, // ADD THIS LINE
 
@@ -80,7 +79,7 @@ export class UpdateList implements OnInit, OnDestroy {
     { id: 'location', label: 'Location', icon: '📍', isActive: false, hasChanges: false, isSaving: false, isValid: true }
   ];
 
-  activeSection: string = 'title';
+  activeSection: string = 'photos';
 
   // Section data
   photosData: PhotosSectionData | null = null;

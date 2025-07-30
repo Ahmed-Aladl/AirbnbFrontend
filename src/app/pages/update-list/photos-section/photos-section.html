@@ -69,7 +69,7 @@
         <img [src]="baseUrl + '/' + photo.imageUrl" 
              [alt]="'Property photo ' + (i + 1)" 
              class="photo-image" 
-             >
+             onerror="this.src='assets/placeholder-image.jpg'">
         
         <!-- Delete Selection Overlay -->
         <div class="delete-overlay" 

@@ -1,20 +1,7 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  OnInit,
-  Input,
-  OnDestroy,
-  SimpleChanges,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, Input, OnDestroy, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  ChatService,
-  MessageDto,
-  ChatSessionDto,
-} from '../../core/services/Message/message.service';
+import { ChatService, MessageDto, ChatSessionDto } from '../../core/services/Message/message.service';
 import { Subject, takeUntil } from 'rxjs';
 import { SignalRService } from '../../core/services/SignalRService/signal-rservice';
 import { AuthService } from '../../core/services/auth.service';
@@ -79,7 +66,8 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
     private signalRService: SignalRService,
     private cdr: ChangeDetectorRef,
     private authService: AuthService
-  ) {}
+
+  ) { }
 
   ngOnInit(): void {
     this.currentUserId = this.authService.userId;
@@ -92,12 +80,10 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
     this.signalRService.messageReceived$
       .pipe(takeUntil(this.destroy$))
       .subscribe((newMessage: MessageDto) => {
-        if (
-          this.selectedChatSession &&
-          newMessage.chatSessionId === this.selectedChatSession.id
-        ) {
+        if (this.selectedChatSession && newMessage.chatSessionId === this.selectedChatSession.id) {
           console.log('New message received via SignalR:', newMessage);
           this.messages.push(newMessage);
+
 
           this.processChatItems();
           this.scrollToBottom();
@@ -112,10 +98,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes['selectedChatSession'] &&
-      changes['selectedChatSession']?.currentValue
-    ) {
+    if (changes['selectedChatSession'] && changes['selectedChatSession']?.currentValue) {
       this.resetPagination();
       this.initializeChatSession();
     }
@@ -151,15 +134,12 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
 
   private initializeChatSession(): void {
     if (this.selectedChatSession) {
-      this.isHost = this.selectedChatSession.hostId == this.currentUserId;
+      this.isHost = this.selectedChatSession.hostId == this.currentUserId
     }
     if (!this.selectedChatSession) return;
 
-    this.hostName = this.isHost
-      ? this.selectedChatSession.userName
-      : this.selectedChatSession.hostName;
-    this.hostProfileImage =
-      this.selectedChatSession.hostAvatarUrl ||
+    this.hostName = this.isHost ? this.selectedChatSession.userName : this.selectedChatSession.hostName;
+    this.hostProfileImage = this.selectedChatSession.hostAvatarUrl ||
       'https://pngpix.com/images/file/placeholder-profile-icon-20tehfawxt5eihco.jpg';
 
     // Don't load messages here - only use initialMessages
@@ -180,12 +160,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
       previousScrollHeight = this.chatContainer.nativeElement.scrollHeight;
     }
 
-    this.chatService
-      .getChatMessages(
-        this.selectedChatSession.id,
-        this.currentPage,
-        this.pageSize
-      )
+    this.chatService.getChatMessages(this.selectedChatSession.id, this.currentPage, this.pageSize)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (messages: MessageDto[]) => {
@@ -202,8 +177,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
             // Maintain scroll position after loading older messages
             setTimeout(() => {
               if (this.chatContainer) {
-                const newScrollHeight =
-                  this.chatContainer.nativeElement.scrollHeight;
+                const newScrollHeight = this.chatContainer.nativeElement.scrollHeight;
                 const scrollDifference = newScrollHeight - previousScrollHeight;
                 this.chatContainer.nativeElement.scrollTop = scrollDifference;
               }
@@ -218,7 +192,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
           console.error('Error loading messages:', error);
           this.error = 'Failed to load messages. Please try again.';
           this.isLoadingOlderMessages = false;
-        },
+        }
       });
   }
 
@@ -227,21 +201,19 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
 
     // Check if user scrolled to top (with some threshold)
     // Only load if we have messages (not initial load) and not already loading
-    if (
-      element.scrollTop <= 100 &&
+    if (element.scrollTop <= 100 &&
       !this.isLoadingOlderMessages &&
       this.hasMoreMessages &&
-      this.messages.length > 0
-    ) {
+      this.messages.length > 0) {
       this.loadMessages();
     }
   }
 
   private processChatItems(): void {
-    if (!this.currentUserId) {
-      this.currentUserId = this.authService.userId;
-    }
-
+     if (!this.currentUserId) {
+    this.currentUserId = this.authService.userId;
+  }
+  
     this.chatItems = [];
     let lastDate = '';
 
@@ -251,20 +223,18 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
       if (messageDate !== lastDate) {
         this.chatItems.push({
           type: 'date',
-          label: messageDate,
+          label: messageDate
         });
         lastDate = messageDate;
       }
 
       // Add reservation request status if exists
       if (message.reservationRequest) {
-        const statusText = this.getReservationStatusText(
-          message.reservationRequest.requestStatus
-        );
+        const statusText = this.getReservationStatusText(message.reservationRequest.requestStatus);
         this.chatItems.push({
           type: 'status',
           content: statusText,
-          action: 'View details',
+          action: 'View details'
         });
       }
 
@@ -279,16 +249,11 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
         messageId: message.id,
         originalMessage: message,
         // Handle reactions - take first reaction for now
-        reaction:
-          message.reactions && message.reactions.length > 0
-            ? this.getReactionEmoji(message.reactions[0].reactionType)
-            : undefined,
+        reaction: message.reactions && message.reactions.length > 0 ?
+          this.getReactionEmoji(message.reactions[0].reactionType) : undefined,
         // Show read status for user messages
         // readBy: !message.isHost && message.isRead ? this.hostName : undefined
-        readBy:
-          message.senderId !== this.currentUserId && message.isRead
-            ? this.hostName
-            : undefined,
+        readBy: message.senderId !== this.currentUserId && message.isRead ? this.hostName : undefined
       });
     });
   }
@@ -307,18 +272,15 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
       return date.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
-        year:
-          date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined,
+        year: date.getFullYear() !== today.getFullYear() ? 'numeric' : undefined
       });
     }
   }
 
   private isSameDay(date1: Date, date2: Date): boolean {
-    return (
-      date1.getDate() === date2.getDate() &&
+    return date1.getDate() === date2.getDate() &&
       date1.getMonth() === date2.getMonth() &&
-      date1.getFullYear() === date2.getFullYear()
-    );
+      date1.getFullYear() === date2.getFullYear();
   }
 
   private formatTime(dateString: string): string {
@@ -332,16 +294,11 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
 
   private getReservationStatusText(status: number): string {
     switch (status) {
-      case 0:
-        return 'Reservation request pending approval';
-      case 1:
-        return 'Reservation request approved';
-      case 2:
-        return 'Reservation request declined';
-      case 3:
-        return 'Reservation cancelled';
-      default:
-        return 'Reservation status unknown';
+      case 0: return 'Reservation request pending approval';
+      case 1: return 'Reservation request approved';
+      case 2: return 'Reservation request declined';
+      case 3: return 'Reservation cancelled';
+      default: return 'Reservation status unknown';
     }
   }
 
@@ -352,7 +309,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
       2: '❤️',
       3: '👍',
       4: '👏',
-      5: '🔥',
+      5: '🔥'
     };
     return reactionMap[reactionType] || '😀';
   }
@@ -360,8 +317,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
   private markMessagesAsRead(): void {
     if (!this.selectedChatSession) return;
 
-    this.chatService
-      .markMessagesAsRead(this.selectedChatSession.id)
+    this.chatService.markMessagesAsRead(this.selectedChatSession.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -369,15 +325,14 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error marking messages as read:', error);
-        },
+        }
       });
   }
 
   scrollToBottom(): void {
     setTimeout(() => {
       if (this.chatContainer) {
-        this.chatContainer.nativeElement.scrollTop =
-          this.chatContainer.nativeElement.scrollHeight;
+        this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
       }
     }, 100);
   }
@@ -393,8 +348,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
 
     this.isSending = true;
 
-    this.chatService
-      .sendMessage(this.selectedChatSession.id, message, 1, true)
+    this.chatService.sendMessage(this.selectedChatSession.id, message, 1, true)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (sentMessage: MessageDto) => {
@@ -419,7 +373,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
           console.error('Error sending message:', error);
           this.error = 'Failed to send message. Please try again.';
           this.isSending = false;
-        },
+        }
       });
   }
 
@@ -456,20 +410,12 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
   }
 
   get isSendDisabled(): boolean {
-    return (
-      this.messageInput.trim().length === 0 ||
-      this.isSending ||
-      !this.selectedChatSession
-    );
+    return this.messageInput.trim().length === 0 || this.isSending || !this.selectedChatSession;
   }
 
   getLastReadMessageIndex(): number {
     for (let i = this.chatItems.length - 1; i >= 0; i--) {
-      if (
-        this.chatItems[i].type === 'message' &&
-        this.chatItems[i].isCurrentUser &&
-        this.chatItems[i].readBy
-      ) {
+      if (this.chatItems[i].type === 'message' && this.chatItems[i].isCurrentUser && this.chatItems[i].readBy) {
         // if (this.chatItems[i].type === 'message' && this.chatItems[i].readBy) {
         return i;
       }

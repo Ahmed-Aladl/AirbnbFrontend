@@ -2,7 +2,7 @@ import { Property } from './../../core/models/Property';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PropertyService } from '../../core/services/Property/property.service';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Routes } from '@angular/router';
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { PropertImageGalaryComponent } from "../PropertyDetails/propertImage-galary/propertImage-galary.component";
 import { ReverseSectionComponent } from "../PropertyDetails/reverse-section/reverse-section.component";
 import { AmenitiesSectionComponent } from '../PropertyDetails/amenities-section/amenities-section.component';
@@ -43,22 +43,24 @@ export class PropertyInfo implements OnInit {
     guestCount = {
       adults: 1,
       children: 0,
-      infants: 0
+      // infants: 0
   }
 
-
+  hostID! :string;
+  
+  
 
 
     @Input() checkIn!: string;
     @Input() checkOut!: string;
     @Input() guests!: { adults: number, children: number, infants: number };
-    @Input() previewPropertyId?: number 
+
       @Output() guestChange = new EventEmitter<{
         adults: number;
         children: number;
         infants: number;
       }>();
-    @Input() isPreview:boolean = false
+
 
   // State for child components
   activeTab: 'gallery' | 'reviews' | 'amenities' = 'gallery';
@@ -68,7 +70,8 @@ export class PropertyInfo implements OnInit {
       private propertyService: PropertyService,
       private route: ActivatedRoute,
       private cdr: ChangeDetectorRef,
-      private calendarService: CalendarAvailabilityService
+      private calendarService: CalendarAvailabilityService,
+      private router: Router,
     ) {}
     
     ngOnInit(): void {
@@ -78,21 +81,16 @@ export class PropertyInfo implements OnInit {
       }
       this.route.params.subscribe(params => {
       this.propertyId = +params['propertyId']; // Get propertyId from route params
-      if(this.propertyId <= 0 && (!this.previewPropertyId || this.previewPropertyId)) {
-
+      if(this.propertyId <= 0) {
         this.error = 'Invalid property ID';
         this.isLoading = false;
         return;
-      }else if(this.previewPropertyId)
-        this.propertyId = this.previewPropertyId
-
+      }
       // console.log('Property ID from route:', this.propertyId);
       this.showPropertyDetails(this.propertyId);
       this.getCalendarAvailability()
 
     });
-
-    
   }
   
   getCalendarAvailability(){
@@ -123,7 +121,9 @@ export class PropertyInfo implements OnInit {
   showPropertyDetails(id: number): void {
     this.propertyService.getPropertyById(id).subscribe({
       next: (property) => {
+        this.hostID=property.hostId;
         this.selectedProperty = property;
+        
         console.log('Selected property:', this.selectedProperty);
         console.log(id);
         this.cdr.detectChanges()
@@ -171,7 +171,7 @@ customClasses = (date: dayjs.Dayjs): string => {
 //   }
 
   // Handle guest update from Reverse Section
-  onGuestChange(updatedGuests: { adults: number; children: number; infants: number }) {
+  onGuestChange(updatedGuests: { adults: number; children: number }) {
     this.guestCount = updatedGuests;
   }
 

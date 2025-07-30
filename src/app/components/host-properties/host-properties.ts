@@ -5,14 +5,14 @@ import { HostPropertiesService } from '../../core/services/Property/HostProperti
 import { PropertyDisplayDTO } from '../../core/services/Property/HostPropertiesService';
 import { environment } from '../../../environments/environment.development';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../host-header/host-header';
+import { HeaderComponent } from "../host-header/host-header";
 
 @Component({
   selector: 'app-host-properties',
   standalone: true,
   templateUrl: './host-properties.html',
   styleUrls: ['./host-properties.css'],
-  imports: [CommonModule, RouterLink, HeaderComponent],
+  imports: [CommonModule, RouterLink, HeaderComponent]
 })
 export class HostProperties implements OnInit {
   properties: PropertyDisplayDTO[] = [];
@@ -25,10 +25,11 @@ export class HostProperties implements OnInit {
   constructor(
     private hostPropertiesService: HostPropertiesService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService  
   ) {}
 
   ngOnInit(): void {
+    
     this.hostId = this.authService.userId;
     this.loadHostProperties();
   }
@@ -53,7 +54,7 @@ export class HostProperties implements OnInit {
         this.error = 'Failed to load properties. Please try again later.';
         this.isLoading = false;
         console.error('Error loading properties:', err);
-      },
+      }
     });
   }
 
@@ -96,37 +97,28 @@ export class HostProperties implements OnInit {
       return '';
     }
 
-    const localCoverImage = property.images.find(
-      (img) =>
-        img.isCover &&
-        !img.isDeleted &&
-        (img.imageUrl.startsWith('/uploads/') ||
-          !img.imageUrl.startsWith('http'))
+    const localCoverImage = property.images.find(img =>
+      img.isCover && !img.isDeleted && (img.imageUrl.startsWith('/uploads/') || (!img.imageUrl.startsWith('http')))
     );
 
     if (localCoverImage) {
       return this.buildImageUrl(localCoverImage.imageUrl);
     }
 
-    const coverImage = property.images.find(
-      (img) => img.isCover && !img.isDeleted
-    );
+    const coverImage = property.images.find(img => img.isCover && !img.isDeleted);
     if (coverImage) {
       return this.buildImageUrl(coverImage.imageUrl);
     }
 
-    const firstLocalImage = property.images.find(
-      (img) =>
-        !img.isDeleted &&
-        (img.imageUrl.startsWith('/uploads/') ||
-          !img.imageUrl.startsWith('http'))
+    const firstLocalImage = property.images.find(img =>
+      !img.isDeleted && (img.imageUrl.startsWith('/uploads/') || (!img.imageUrl.startsWith('http')))
     );
 
     if (firstLocalImage) {
       return this.buildImageUrl(firstLocalImage.imageUrl);
     }
 
-    const firstImage = property.images.find((img) => !img.isDeleted);
+    const firstImage = property.images.find(img => !img.isDeleted);
     if (firstImage) {
       return this.buildImageUrl(firstImage.imageUrl);
     }
@@ -147,32 +139,24 @@ export class HostProperties implements OnInit {
     }
 
     if (imageUrl.startsWith('/uploads/')) {
-      const cleanImageUrl = imageUrl.startsWith('/')
-        ? imageUrl.substring(1)
-        : imageUrl;
-      const baseUrl = staticBaseUrl.endsWith('/')
-        ? staticBaseUrl
-        : staticBaseUrl + '/';
+      const cleanImageUrl = imageUrl.startsWith('/') ? imageUrl.substring(1) : imageUrl;
+      const baseUrl = staticBaseUrl.endsWith('/') ? staticBaseUrl : staticBaseUrl + '/';
       return `${baseUrl}${cleanImageUrl}`;
     }
 
     if (!imageUrl.startsWith('/')) {
-      const baseUrl = staticBaseUrl.endsWith('/')
-        ? staticBaseUrl
-        : staticBaseUrl + '/';
+      const baseUrl = staticBaseUrl.endsWith('/') ? staticBaseUrl : staticBaseUrl + '/';
       return `${baseUrl}uploads/${imageUrl}`;
     }
 
-    const baseUrl = staticBaseUrl.endsWith('/')
-      ? staticBaseUrl.slice(0, -1)
-      : staticBaseUrl;
+    const baseUrl = staticBaseUrl.endsWith('/') ? staticBaseUrl.slice(0, -1) : staticBaseUrl;
     return `${baseUrl}${imageUrl}`;
   }
 
   hasValidImage(property: PropertyDisplayDTO): boolean {
     return this.getCoverImageUrl(property) !== '';
   }
-
+  
   trackById(index: number, property: any): string | number {
     return property.id;
   }

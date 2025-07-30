@@ -12,8 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { Ireview } from '../../../core/models/ireview';
 import { StarComponent } from '../../../shared/components/star-component/star-component';
 import { AuthService } from './../../../core/services/auth.service';
-import { IGuestReviewDto } from '../../../core/models/ReviewInterfaces/guest-review-dto';
-
 
 @Component({
   selector: 'app-reviews-modal',
@@ -22,11 +20,9 @@ import { IGuestReviewDto } from '../../../core/models/ReviewInterfaces/guest-rev
   styleUrls: ['./guest-review-modal.css'],
 })
 export class ReviewsModalComponent implements OnInit, OnChanges {
-  @Input() reviews: IGuestReviewDto[] = [];
+  @Input() reviews: Ireview[] = [];
   @Input() propertyName: string = 'This Property';
-
-  @Input() propertyId!: number;
-
+  @Input() propertyId!: string;
   @Output() closeModal = new EventEmitter<void>();
 
   filteredReviews: Ireview[] = [];
@@ -62,10 +58,9 @@ export class ReviewsModalComponent implements OnInit, OnChanges {
   };
 
   constructor(
-
-    private authService: AuthService // Add other services as needed: // private reviewService: ReviewService
-  ) {}
-
+    private authService: AuthService // Add other services as needed:
+  ) // private reviewService: ReviewService
+  {}
 
   ngOnInit() {
     this.calculateStatistics();
@@ -214,8 +209,8 @@ export class ReviewsModalComponent implements OnInit, OnChanges {
         break;
       case 'oldest':
         filtered.sort((a, b) => {
-          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0; // FIXED: Use 0 instead of MAX_SAFE_INTEGER
+          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0; // FIXED: Use 0 instead of MAX_SAFE_INTEGER
           return dateA - dateB; // Oldest first, undefined dates last
         });
         break;

@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PropertyFormStorageService } from '../../../../core/services/ListingWizard/property-form-storage.service';
 import { ListingWizardService } from '../../../../core/services/ListingWizard/listing-wizard.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
-import { PropertyFormStorageService } from '../../services/property-form-storage.service';
 
 @Component({
   selector: 'app-step1-4-2-confirm-address',

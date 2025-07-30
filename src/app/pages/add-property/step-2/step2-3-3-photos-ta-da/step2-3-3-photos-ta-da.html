@@ -16,7 +16,7 @@
     />
 
     <div class="photo-grid">
-      <ng-container *ngFor="let photo of photos; let i = index">
+      <ng-container *ngFor="let photo of photosService.photos; let i = index">
         <div
           class="photo-item"
           [class.cover-photo]="i === 0"
@@ -27,7 +27,9 @@
         >
           <img [src]="photo" alt="Property photo" />
           <div *ngIf="i === 0" class="photo-caption">Cover Photo</div>
-          <!-- Photo options button hidden or disabled since removePhoto is not available in TS -->
+          <button class="photo-options-btn" aria-label="Photo options">
+            <svg viewBox="0 0 16 16"><path d="m3 9.5c.828 0 1.5-.672 1.5-1.5s-.672-1.5-1.5-1.5-1.5.672-1.5 1.5.672 1.5 1.5 1.5zm5 0c.828 0 1.5-.672 1.5-1.5s-.672-1.5-1.5-1.5-1.5.672-1.5 1.5.672 1.5 1.5 1.5zm5 0c.828 0 1.5-.672 1.5-1.5s-.671-1.5-1.5-1.5-1.5.672-1.5 1.5.671 1.5 1.5 1.5z"></path></svg>
+          </button>
         </div>
       </ng-container>
 

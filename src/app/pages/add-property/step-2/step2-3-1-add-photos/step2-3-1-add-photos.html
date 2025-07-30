@@ -26,10 +26,10 @@
       </div>
 
       <!-- Container for photo previews -->
-      <div class="photo-previews-grid" *ngIf="photos.length > 0" style="display:grid;">
-        <div class="photo-preview-item" *ngFor="let photo of photos; let i = index">
+      <div class="photo-previews-grid" *ngIf="photosService.photos.length > 0" style="display:grid;">
+        <div class="photo-preview-item" *ngFor="let photo of photosService.photos; let i = index">
           <img [src]="photo" alt="Photo preview" />
-          <button class="remove-photo-btn">&times;</button>
+          <button class="remove-photo-btn" (click)="photosService.removePhoto(i)">&times;</button>
         </div>
       </div>
 

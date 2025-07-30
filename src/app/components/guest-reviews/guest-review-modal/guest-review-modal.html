@@ -26,7 +26,7 @@
       <div class="overall-rating-section">
         <h4 class="overall-rating-title">Overall rating</h4>
         <div class="rating-breakdown">
-          <div *ngFor="let rating of [5, 4, 3, 2, 1]" class="rating-bar-item">
+          <div *ngFor="let rating of [5, 4, 3, 2, 1]" class="rating-row">
             <span class="rating-label">{{ rating }}</span>
             <div class="progress">
               <div
@@ -109,9 +109,7 @@
             >
               Add Review
             </button>
-
-            <!-- <a href="#" class="learn-link">Learn how reviews work</a> -->
-
+            <a href="#" class="learn-link">Learn how reviews work</a>
           </div>
           <div class="dropdown-container">
             <select
@@ -175,7 +173,7 @@
                 [value]="review.rating"
                 [readonly]="true"
                 [fontSize]="'14px'"
-                [starColor]="'black'"
+                [starColor]="'#FFD700'"
                 class="stars"
               ></app-star-component>
               <span class="review-date">{{

@@ -6,20 +6,8 @@
   </div>
 
   <div *ngFor="let review of reviews" class="review-card">
-    <div class="stars-date">
-      <div class="stars">
-        <ng-container *ngFor="let star of getStars(review.rating)">
-          <i class="fa fa-star text-warning"></i>
-        </ng-container>
-      </div>
-      <div class="review-date">{{ review.createdAt | date: 'mediumDate' }}</div>
-    </div>
-
     <p class="comment">“{{ review.comment }}”</p>
-
-    <p *ngIf="review.privateComment" class="private-comment">
-      <strong>Private:</strong> {{ review.privateComment }}
-    </p>
+    <p class="private-comment">Private: {{ review.privateComment }}</p>
 
     <div class="ratings">
       <div><strong>Cleanliness:</strong> {{ review.cleanliness }}</div>

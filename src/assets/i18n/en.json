@@ -78,11 +78,7 @@
     "aboutMe": "About Me",
     "travels": "Travels",
     "edit": "Edit",
-    "yourReviews": "Your Reviews",
-    "uploadImage": "Upload Image",
-    "previewImage": "Preview Image",
-    "upload": "Upload",
-    "cancel": "Cancel"
+    "yourReviews": "Your Reviews"
   },
   "notifications": {
     "title": "Notifications",

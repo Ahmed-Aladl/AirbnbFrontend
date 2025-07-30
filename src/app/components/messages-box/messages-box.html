@@ -129,20 +129,12 @@
       <i class="bi bi-chat-dots"></i>
     </div>
     <div class="empty-title mb-2">
-      {{
-        activeFilter === "unread"
-          ? "No unread messages"
-          : "You don't have any
-      messages"
-      }}
+      {{ activeFilter === 'unread' ? 'No unread messages' : 'You don\'t have any
+      messages' }}
     </div>
     <div class="empty-subtitle">
-      {{
-        activeFilter === "unread"
-          ? "All your messages have been read."
-          : "When
-      you receive a new message, it will appear here."
-      }}
+      {{ activeFilter === 'unread' ? 'All your messages have been read.' : 'When
+      you receive a new message, it will appear here.' }}
     </div>
   </div>
 

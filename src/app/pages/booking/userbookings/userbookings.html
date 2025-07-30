@@ -1,0 +1,157 @@
+<app-header></app-header>
+
+<div class="bookings-container">
+  <div class="bookings-header">
+    <h1 class="page-title">Your trips</h1>
+    <p class="page-subtitle">Manage your reservations and explore new destinations</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="loading-spinner">
+      <div class="spinner"></div>
+    </div>
+    <p class="loading-text">Loading your bookings...</p>
+  </div>
+
+  <div *ngIf="error && !isLoading" class="error-state">
+    <div class="error-card">
+      <i class="bi bi-exclamation-triangle error-icon"></i>
+      <h3 class="error-title">Something went wrong</h3>
+      <p class="error-message">{{ error }}</p>
+      <button class="btn-retry" (click)="refreshBookings()">
+        <i class="bi bi-arrow-clockwise"></i>
+        Try again
+      </button>
+    </div>
+  </div>
+
+ 
+  <div *ngIf="!isLoading && !error" class="bookings-content">
+   
+    <div *ngIf="bookings.length === 0" class="empty-state">
+      <div class="empty-illustration">
+        <i class="bi bi-compass"></i>
+      </div>
+      <h3 class="empty-title">No trips yet</h3>
+      <p class="empty-message">Time to dust off your bags and start planning your next adventure</p>
+      <a routerLink="/properties" class="btn-start-searching">
+        Start searching
+      </a>
+    </div>
+
+    <!-- Bookings List -->
+    <div *ngIf="bookings.length > 0" class="bookings-grid">
+      <div *ngFor="let booking of bookings; trackBy: trackByBookingId" class="booking-card">
+        <!-- Booking Header -->
+        <div class="booking-header">
+          <div class="booking-type">
+            {{ getBookingTypeLabel(booking) }}
+          </div>
+          <div class="booking-status" [ngClass]="getBookingStatusClass(booking.bookingStatus)">
+            <i [class]="getBookingStatusIcon(booking.bookingStatus)"></i>
+            <span>{{ booking.bookingStatus }}</span>
+          </div>
+        </div>
+
+        <!-- Property Image with Gradient Overlay -->
+        <div class="property-image">
+          <div class="image-placeholder">
+            <div class="image-gradient"></div>
+            <div class="image-content">
+              <i class="bi bi-building"></i>
+              <span class="image-text">{{ booking.city }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking Details -->
+        <div class="booking-details">
+          <div class="property-info">
+            <h3 class="property-title">{{ booking.propertyTitle }}</h3>
+            <p class="property-location">
+              <i class="bi bi-geo-alt-fill"></i>
+              {{ booking.city }}, {{ booking.country }}
+            </p>
+          </div>
+
+          <!-- Enhanced Stay Details -->
+          <div class="stay-details">
+            <div class="date-range">
+              <div class="date-item">
+                <span class="date-label">Check-in</span>
+                <span class="date-value">{{ formatDateWithYear(booking.checkInDate) }}</span>
+              </div>
+              <div class="date-separator">
+                <i class="bi bi-arrow-right"></i>
+              </div>
+              <div class="date-item">
+                <span class="date-label">Check-out</span>
+                <span class="date-value">{{ formatDateWithYear(booking.checkOutDate) }}</span>
+              </div>
+            </div>
+
+            <!-- Enhanced Booking Meta Information -->
+            <div class="booking-meta-grid">
+              <div class="meta-card">
+                <div class="meta-icon">
+                  <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="meta-content">
+                  <span class="meta-label">Guests</span>
+                  <span class="meta-value">{{ booking.numberOfGuests }}</span>
+                </div>
+              </div>
+              
+              <div class="meta-card">
+                <div class="meta-icon">
+                  <i class="bi bi-moon-fill"></i>
+                </div>
+                <div class="meta-content">
+                  <span class="meta-label">Nights</span>
+                  <span class="meta-value">{{ getNightCount(booking.checkInDate, booking.checkOutDate) }}</span>
+                </div>
+              </div>
+
+              <div class="meta-card">
+                <div class="meta-icon">
+                  <i class="bi bi-hash"></i>
+                </div>
+                <div class="meta-content">
+                  <span class="meta-label">Booking ID</span>
+                  <span class="meta-value">#{{ booking.id.toString().slice(-6) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Updated Footer with better pricing display -->
+          <div class="booking-footer">
+            <div class="price-section">
+              <div class="price-breakdown">
+                <div class="price-item">
+                  <span class="price-label">Total paid</span>
+                  <span class="price-value">${{ booking.totalPrice | number:'1.0-0' }}</span>
+                </div>
+                <div class="price-per-night" *ngIf="getNightCount(booking.checkInDate, booking.checkOutDate) > 0">
+                  <span class="price-per-night-text">
+                    ${{ (booking.totalPrice / getNightCount(booking.checkInDate, booking.checkOutDate)) | number:'1.0-0' }} per night
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="booking-actions">
+              <button 
+                *ngIf="isUpcomingBooking(booking.checkInDate) && booking.bookingStatus.toLowerCase() === 'confirmed'" 
+                class="btn-primary" 
+                type="button">
+                <i class="bi bi-gear-fill"></i>
+                Manage booking
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

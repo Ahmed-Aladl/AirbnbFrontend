@@ -43,7 +43,7 @@ export class NotificationService implements OnDestroy {
   }
 
   createNotification(payload: {
-    userId: string;
+    id: string;
     message: string;
   }): Observable<Notification> {
     return this.http.post<any>(`${this.baseUrl}`, payload).pipe(
@@ -51,7 +51,7 @@ export class NotificationService implements OnDestroy {
         if (!response.isSuccess || !response.data) {
           throw new Error(response.message || 'Failed to create notification');
         }
-        return response;
+        return response.data as Notification;
       })
     );
   }

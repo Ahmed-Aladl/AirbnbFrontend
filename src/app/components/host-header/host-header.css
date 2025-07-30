@@ -24,6 +24,7 @@
   /* padding: 0 2rem; */
 }
 
+
 .airbnb-logo svg {
   color: #ff385c;
   height: 32px;
@@ -45,12 +46,10 @@
   transition: color 0.2s ease;
   border: none;
   /*font-weight: 500;
-  */ /*font-size: 16px;
-  */
-  cursor: pointer;
+  *//*font-size: 16px;
+  */cursor: pointer;
   /*color: #222;
-  */
-  padding: 0.5rem;
+  */padding: 0.5rem;
   border-radius: 20px;
   transition: all 0.5s ease;
 }
@@ -100,10 +99,13 @@
 }
  */
 
+
+
+
 .user-menu-button {
   border: 1px solid var(--border-color);
   border-radius: 9999px;
-  padding: 6px;
+  padding: 6px ;
   transition: box-shadow 0.2s ease-in-out;
   background-color: var(--bg-color);
   display: flex;
@@ -141,13 +143,13 @@
   /* overflow: hidden; */
   background-color: var(--active);
   min-height: 240px !important;
-  z-index: 10000 !important;
+  z-index: 10000!important;
 }
-.menu-dropdown {
-  background-color: var(--active);
-  width: 100%;
+.menu-dropdown{
+ background-color: var(--active);
+ width: 100%;
 }
-.menu-dropdown:hover {
+.menu-dropdown:hover{
   background-color: transparent !important;
 }
 
@@ -179,3 +181,4 @@
   fill: none;
   stroke: currentColor;
 }
+

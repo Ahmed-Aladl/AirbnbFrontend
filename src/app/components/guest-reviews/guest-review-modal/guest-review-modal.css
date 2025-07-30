@@ -13,8 +13,6 @@
     visibility: visible;
 }
 
-
-
 /* Modal Container */
 .modal-container {
     background: white;
@@ -104,15 +102,13 @@
     display: flex;
     align-items: center;
     margin-bottom: 8px;
-
 }
 
 .rating-label {
     font-size: 14px;
     color: #222;
-    min-width: 20px;
+    min-width: 15px;
     margin-right: 12px;
-    font-weight: 500;
 }
 
 .progress {
@@ -120,25 +116,20 @@
     background-color: #e5e5e5 !important;
     border-radius: 2px;
     overflow: hidden;
-    /* flex-grow: 1;
-    margin-right: 12px; */
-    flex: 1;
+    flex-grow: 1;
+    margin-right: 12px;
 }
 
 .progress-bar {
     background-color: #222 !important;
     border-radius: 2px;
-    height: 100%;
-    background-color: #222;
-    transition: width 0.3s ease;
 }
 
 .rating-count {
-    /* font-size: 12px;
+    font-size: 12px;
     color: #717171;
     min-width: 25px;
-    text-align: right; */
-    display: none;
+    text-align: right;
 }
 
 /* Category Ratings */
@@ -432,200 +423,195 @@
         max-height: 55vh;
     }
 }
-
 /* Add these styles at the end of the file */
 
 /* Add Review Mode Styles */
 .add-review-mode {
-    max-width: 600px;
+  max-width: 600px;
 }
 
 .add-review-container {
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 24px;
-    border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .modal-title {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #222;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #222;
 }
 
 .close-button {
-    background: transparent;
-    border: none;
-    font-size: 1.25rem;
-    cursor: pointer;
-    color: #666;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    transition: background-color 0.2s;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
 }
 
 .close-button:hover {
-    background-color: #f5f5f5;
-    color: #222;
+  background-color: #f5f5f5;
+  color: #222;
 }
 
 .modal-body {
-    padding: 24px;
+  padding: 24px;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #222;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #222;
 }
 
-.form-control,
-.form-select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
+.form-control, .form-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
 }
 
-.form-control:focus,
-.form-select:focus {
-    border-color: #FF385C;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(255, 56, 92, 0.2);
+.form-control:focus, .form-select:focus {
+  border-color: #FF385C;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 56, 92, 0.2);
 }
 
-.form-control.is-invalid,
-.form-select.is-invalid {
-    border-color: #dc3545;
+.form-control.is-invalid, .form-select.is-invalid {
+  border-color: #dc3545;
 }
 
-.invalid-feedback,
-.text-danger {
-    display: block;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 0.875rem;
-    color: #dc3545;
+.invalid-feedback, .text-danger {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #dc3545;
 }
 
 .rating-container {
-    margin-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 /* Category ratings for add review mode */
 .add-review-container .category-ratings h4 {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #222;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #222;
 }
 
 .add-review-container .category-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
 }
 
 .add-review-container .category-label {
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-    color: #484848;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #484848;
 }
 
 .add-review-container .category-label i {
-    color: #FF385C;
-    margin-right: 8px;
+  color: #FF385C;
+  margin-right: 8px;
 }
 
 .form-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
 }
 
 .btn {
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .btn-primary {
-    background-color: #FF385C;
-    border: 1px solid #FF385C;
-    color: white;
+  background-color: #FF385C;
+  border: 1px solid #FF385C;
+  color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-    background-color: #e31c5f;
-    border-color: #e31c5f;
+  background-color: #e31c5f;
+  border-color: #e31c5f;
 }
 
 .btn-primary:disabled {
-    background-color: #ffb3c0;
-    border-color: #ffb3c0;
-    cursor: not-allowed;
+  background-color: #ffb3c0;
+  border-color: #ffb3c0;
+  cursor: not-allowed;
 }
 
 .btn-outline-secondary {
-    background-color: transparent;
-    border: 1px solid #ddd;
-    color: #484848;
+  background-color: transparent;
+  border: 1px solid #ddd;
+  color: #484848;
 }
 
 .btn-outline-secondary:hover {
-    background-color: #f7f7f7;
-    border-color: #ccc;
+  background-color: #f7f7f7;
+  border-color: #ccc;
 }
 
 .alert {
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
 }
 
 .alert-danger {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
 }
 
 .alert-success {
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
 }
 
 /* Responsive adjustments for add review mode */
 @media (max-width: 768px) {
-    .add-review-container .category-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .add-review-container .category-item app-star-component {
-        margin-top: 8px;
-    }
+  .add-review-container .category-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .add-review-container .category-item app-star-component {
+    margin-top: 8px;
+  }
 }

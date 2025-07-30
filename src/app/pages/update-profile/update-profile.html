@@ -1,166 +1,67 @@
 <div class="profile-container">
-  <dialog #uploadDialog class="custom-dialog">
-    <h3>{{ "profile.previewImage" | translate }}</h3>
-
-    <div class="crop-section">
-      <!-- Original image with crop overlay -->
-      <div class="image-cropper-container">
-        <div
-          #cropContainer
-          class="crop-container"
-          (mousedown)="onMouseDown($event)"
-          (mousemove)="onMouseMove($event)"
-          (mouseup)="onMouseUp()"
-          (mouseleave)="onMouseUp()"
-        >
-          <img
-            *ngIf="previewImageUrl"
-            [src]="previewImageUrl"
-            class="original-img"
-            draggable="false"
-          />
-
-          <!-- Crop overlay -->
-          <div
-            class="crop-overlay"
-            [style.left.px]="cropArea.x"
-            [style.top.px]="cropArea.y"
-            [style.width.px]="cropArea.width"
-            [style.height.px]="cropArea.height"
-          >
-            <div class="crop-handle"></div>
-          </div>
-        </div>
-
-        <!-- Zoom controls -->
-        <div class="zoom-controls">
-          <button
-            type="button"
-            class="zoom-btn"
-            (click)="zoomIn()"
-            title="Zoom Out"
-          >
-            <span>+</span>
-          </button>
-          <button
-            type="button"
-            class="zoom-btn"
-            (click)="zoomOut()"
-            title="Zoom In"
-          >
-            <span>-</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Preview of cropped image -->
-      <div class="preview-section">
-        <canvas #cropCanvas class="preview-canvas" width="200" height="200">
-        </canvas>
-      </div>
-    </div>
-
-    <div class="dialog-buttons">
-      <button
-        class="upload-btn"
-        (click)="confirmUpload()"
-        [disabled]="!croppedImageBlob"
-      >
-        {{ "profile.upload" | translate }}
-      </button>
-      <button class="cancel-btn" (click)="closeDialog()">
-        {{ "profile.cancel" | translate }}
-      </button>
-    </div>
-  </dialog>
-
   <form
     class="profile-form"
     (ngSubmit)="onUpdateProfile()"
     #profileForm="ngForm"
   >
-    <div class="user-img">
-      <img *ngIf="ifImg" [src]="img" alt="user-img" />
-      <span class="initial-letter" *ngIf="!ifImg">
-        {{ user?.charAt(0)?.toUpperCase() || "." }}
-      </span>
-
-      <div class="upload-btn-container">
-        <label for="profileImage" class="upload-label">
-          <i class="bi bi-camera-fill"></i>
-          {{ "profile.uploadImage" | translate }}
-        </label>
-
-        <input
-          type="file"
-          id="profileImage"
-          accept="image/*"
-          (change)="onFileSelected($event)"
-          hidden
-        />
-      </div>
+    <div class="form-data">
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        required
+        placeholder="{{ 'profile.firstName' | translate }}"
+        [(ngModel)]="firstName"
+      />
     </div>
-
-    <div class="form-fields">
-      <div class="form-data">
-        <input
-          type="text"
-          id="firstName"
-          name="firstName"
-          required
-          placeholder="{{ 'profile.firstName' | translate }}"
-          [(ngModel)]="firstName"
-        />
-      </div>
-      <div class="form-data">
-        <input
-          type="text"
-          id="lastName"
-          name="lastName"
-          required
-          placeholder="{{ 'profile.lastName' | translate }}"
-          [(ngModel)]="lastName"
-        />
-      </div>
-      <div class="form-data">
-        <input
-          type="text"
-          id="phoneNumber"
-          name="phoneNumber"
-          required
-          placeholder="{{ 'profile.phoneNumber' | translate }}"
-          [(ngModel)]="phoneNumber"
-        />
-      </div>
-      <div class="form-data">
-        <input
-          type="text"
-          id="country"
-          name="country"
-          required
-          placeholder="{{ 'profile.country' | translate }}"
-          [(ngModel)]="country"
-        />
-      </div>
-      <div class="form-data">
-        <input
-          type="date"
-          id="birthDate"
-          name="birthDate"
-          required
-          placeholder="{{ 'profile.birthDate' | translate }}"
-          [(ngModel)]="birthDate"
-        />
-      </div>
-      <div class="form-data">
-        <textarea
-          name="bio"
-          id="bio"
-          required
-          placeholder="{{ 'profile.bio' | translate }}"
-          [(ngModel)]="bio"
-        ></textarea>
-      </div>
+    <div class="form-data">
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        required
+        placeholder="{{ 'profile.lastName' | translate }}"
+        [(ngModel)]="lastName"
+      />
+    </div>
+    <div class="form-data">
+      <input
+        type="text"
+        id="phoneNumber"
+        name="phoneNumber"
+        required
+        placeholder="{{ 'profile.phoneNumber' | translate }}"
+        [(ngModel)]="phoneNumber"
+      />
+    </div>
+    <div class="form-data">
+      <input
+        type="text"
+        id="country"
+        name="country"
+        required
+        placeholder="{{ 'profile.country' | translate }}"
+        [(ngModel)]="country"
+      />
+    </div>
+    <div class="form-data">
+      <input
+        type="date"
+        id="birthDate"
+        name="birthDate"
+        required
+        placeholder="{{ 'profile.birthDate' | translate }}"
+        [(ngModel)]="birthDate"
+      />
+    </div>
+    <div class="form-data">
+      <textarea
+        name="bio"
+        id="bio"
+        required
+        placeholder="{{ 'profile.bio' | translate }}"
+        [(ngModel)]="bio"
+      ></textarea>
     </div>
 
     <div class="button-container">

@@ -70,7 +70,8 @@
 .icon-user img {
   width: 32px;
   height: 32px;
-  object-fit: contain;
+  background-position: center;
+  background-size: cover;
   border-radius: 50%;
 }
 

@@ -30,6 +30,7 @@ import { HostProperties } from './components/host-properties/host-properties';
 import { Wishlists } from './pages/wishlist/wishlist';
 import { WishListProperties } from './pages/wishlist-properties/wishlist-properties';
 import { NotFound } from './components/not-found/not-found';
+import { UserBookings } from './pages/booking/userbookings/userbookings';
 import { UpdateList } from './pages/update-list/update-list';
 import { Messages } from './pages/messages/messages';
 import { PropertyBookings } from './pages/booking/property-bookings/property-bookings';
@@ -40,12 +41,7 @@ import { UpdateProfile } from './pages/update-profile/update-profile';
 import { YourReviews } from './pages/your-reviews/your-reviews';
 import { Notifications } from './pages/notifications/notifications';
 import { ReviewForm } from './components/review-form/review-form';
-
-import { UsersComponent } from './pages/admin/pages/users/users';
-import { AdminDashboard } from './pages/admin/Dashboard/AdminDashboard';
-import { HostWalletComponent } from './components/host-wallet/host-wallet';
-import { authGuard } from './core/guards/auth.guard';
-import { RoleGuard } from './core/guards/role.guard';
+import { ContactHostComponent } from './pages/PropertyDetails/contact-host/contact-host.component';
 
 export const routes: Routes = [
   {
@@ -58,36 +54,25 @@ export const routes: Routes = [
       { path: 'FilteredProperties', component: FilteredProperties },
       { path: 'property/:propertyId', component: PropertyInfo },
 
-      { path: 'WishLists', component: Wishlists, canActivate: [authGuard] },
+      { path: 'WishLists', component: Wishlists },
       {
         path: 'wishlist/:wishlistId/properties',
         component: WishListProperties,
-        canActivate: [authGuard],
       },
       { path: 'Messages', component: Messages },
-      { path: 'profile/:id', component: Profile, canActivate: [authGuard] },
-      {
-        path: 'update-profile/:id',
-        component: UpdateProfile,
-        canActivate: [authGuard],
-      },
-      {
-        path: 'your-reviews',
-        component: YourReviews,
-        canActivate: [authGuard],
-      },
-      {
-        path: 'notifications',
-        component: Notifications,
-        canActivate: [authGuard],
-      },
+      { path: 'profile/:id', component: Profile },
+      { path: 'update-profile/:id', component: UpdateProfile },
+      { path: 'your-reviews', component: YourReviews },
+      { path: 'notifications', component: Notifications },
+          {
+          path: 'contact-host',
+          component: ContactHostComponent
+        }   
     ],
   },
   {
     path: 'listing-wizard',
     component: ListingWizardLayoutComponent,
-    canActivateChild: [authGuard],
-    canActivate: [authGuard],
     children: [
       { path: '', component: StepsPage },
       { path: 'step1-1-tell-us', component: Step1TellUs },
@@ -113,76 +98,25 @@ export const routes: Routes = [
       { path: 'step3-6-safety', component: Step36Safety },
     ],
   },
-  { path: 'take-info/:id', component: UpdateProfile, canActivate: [authGuard] },
-  { path: 'host', component: HostProperties, canActivate: [authGuard] },
+  { path: 'take-info/:id', component: UpdateProfile },
+  { path: 'host', component: HostProperties },
+  { path: 'guesttbookings', component: UserBookings },
 
-  {
-    path: 'propertybookings/:propertyId',
-    component: PropertyBookings,
-    canActivate: [authGuard],
-  },
-  { path: 'review/:id', component: ReviewForm, canActivate: [authGuard] },
-
-  {
-    path: 'AdminDashboard',
-    component: AdminDashboard,
-    canActivate: [authGuard, RoleGuard],
-    data: {
-      roles: ['Admin'],
-    },
-  },
-
-  {
-    path: 'AdminDashboard',
-    component: AdminDashboard,
-    canActivate: [authGuard, RoleGuard],
-    data: {
-      roles: ['Admin'],
-    },
-  },
-  {
-    path: 'dashboard',
-    redirectTo: 'AdminDashboard',
-    pathMatch: 'full',
-  },
+  { path: 'propertybookings/:propertyId', component: PropertyBookings },
+  { path: 'review/:id', component: ReviewForm },
 
   {
     path: 'hostsettings',
     component: Host,
-    canActivateChild: [authGuard, RoleGuard],
-
     children: [
-      {
-        path: 'availability',
-        component: Availability,
-        data: {
-          roles: ['Host'],
-        },
-      },
-      {
-        path: 'Messages',
-        component: Messages,
-        data: {
-          roles: ['Host'],
-        },
-      },
-      {
-        path: 'Wallet',
-        component: HostWalletComponent,
-        data: {
-          roles: ['Host'],
-        },
-      },
+      { path: 'availability', component: Availability },
+      { path: 'Messages', component: Messages },
     ],
   },
 
-  { path: 'updatelist', component: UpdateList, canActivate: [authGuard] },
+  { path: 'updatelist', component: UpdateList },
 
-  {
-    path: 'updatelist/:propertyId',
-    component: UpdateList,
-    canActivate: [authGuard],
-  },
+  { path: 'updatelist/:propertyId', component: UpdateList },
 
   { path: '404', component: NotFound },
   { path: '**', redirectTo: '/404' },

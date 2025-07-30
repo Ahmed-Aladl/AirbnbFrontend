@@ -107,7 +107,7 @@
           *ngFor="let monthData of processedMonths; trackBy: trackByMonth"
         >
           <div class="month-header">
-            <h3>{{ format(monthData.month, "MMMM") }}</h3>
+            <h3>{{ format(monthData.month, 'MMMM') }}</h3>
             <!-- <span class="discount-indicator" *ngIf="monthData.hasDiscount">
               1 discount
             </span> -->
@@ -126,14 +126,12 @@
               [class.other-month]="!day.inCurrentMonth"
               [class.disabled]="day.isDisabled"
               [class.available]="day.isAvailable"
-              [class.not-available]="
-                !day.isAvailable && day.inCurrentMonth && !day.isDisabled
-              "
+              [class.not-available]="!day.isAvailable && day.inCurrentMonth && !day.isDisabled"
               [class.selected]="day.isSelected"
               [class.highlighted]="day.isHighlighted"
               (click)="selectDate(day.date)"
             >
-              <div class="day-number">{{ format(day.date, "d") }}</div>
+              <div class="day-number">{{ format(day.date, 'd') }}</div>
               <div class="day-price" *ngIf="day.price && !day.isDisabled">
                 ${{ day.price }}
               </div>
@@ -164,7 +162,7 @@
             </svg>
           </button>
 
-          <h2>{{ format(currentMonth, "MMMM yyyy") }}</h2>
+          <h2>{{ format(currentMonth, 'MMMM yyyy') }}</h2>
 
           <button
             class="nav-btn"
@@ -195,14 +193,12 @@
             [class.other-month]="!day.inCurrentMonth"
             [class.disabled]="day.isDisabled"
             [class.available]="day.isAvailable"
-            [class.not-available]="
-              !day.isAvailable && day.inCurrentMonth && !day.isDisabled
-            "
+            [class.not-available]="!day.isAvailable && day.inCurrentMonth && !day.isDisabled"
             [class.selected]="day.isSelected"
             [class.highlighted]="day.isHighlighted"
             (click)="selectDate(day.date)"
           >
-            <div class="day-number">{{ format(day.date, "d") }}</div>
+            <div class="day-number">{{ format(day.date, 'd') }}</div>
             <div class="day-price" *ngIf="day.price && !day.isDisabled">
               ${{ day.price }}
             </div>

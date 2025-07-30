@@ -104,7 +104,7 @@
   background-color: var(--hover-background);
   border-color: #e9ecef;
   /* transform: translateY(-1px); */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 /* Selected thread styling */
@@ -127,7 +127,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
   flex-shrink: 0;
   border: 2px solid #f0f0f0;
   transition: border-color 0.2s;
@@ -141,13 +141,13 @@
   font-weight: 600;
   color: var(--primary-text);
   font-size: 14px;
-
+  
   /* Text truncation for long names */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 150px;
-
+  
   display: inline-block;
   vertical-align: top;
   transition: color 0.2s;
@@ -158,7 +158,7 @@
   font-size: 13px;
   margin-top: 4px;
   line-height: 1.3;
-
+  
   /* Text truncation for long preview text */
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -174,7 +174,7 @@
   font-size: 12px;
   margin-top: 4px;
   font-style: italic;
-
+  
   /* Text truncation for long trip details */
   white-space: nowrap;
   overflow: hidden;
@@ -362,25 +362,25 @@
   .component-container {
     padding: 15px;
   }
-
+  
   .message-name {
     max-width: 120px;
   }
-
+  
   .message-details {
     max-width: 150px;
   }
-
+  
   .message-preview {
     -webkit-line-clamp: 1;
     max-height: 17px;
   }
-
+  
   .profile-img {
     width: 45px;
     height: 45px;
   }
-
+  
   .messages-scroll-container {
     padding-right: 4px;
     margin-right: -4px;
@@ -444,7 +444,7 @@
 
 .btn-outline-primary.btn-sm:hover {
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(0,123,255,0.3);
 }
 
 /* End of data indicator */
@@ -538,7 +538,7 @@
     animation: none;
     transition: none;
   }
-
+  
   .messages-scroll-container {
     scroll-behavior: auto;
   }
@@ -552,11 +552,11 @@
     --secondary-text: #333333;
     --primary-color: #0066cc;
   }
-
+  
   .message-thread {
     border: 2px solid var(--border-color);
   }
-
+  
   .message-thread:hover {
     border-color: var(--primary-color);
   }
@@ -569,12 +569,12 @@
     border: none;
     padding: 0;
   }
-
+  
   .messages-scroll-container {
     height: auto;
     overflow: visible;
   }
-
+  
   .filter-btn,
   .btn,
   .loading-indicator,

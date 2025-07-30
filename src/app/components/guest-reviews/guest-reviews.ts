@@ -1,5 +1,5 @@
 import { Property } from './../../core/models/Property';
-
+import { UserBookings } from './../../pages/booking/userbookings/userbookings';
 import { UserBookingService } from './../../core/services/Booking/user-booking-service';
 import { Confirm } from './../../shared/components/confirm/confirm';
 import { CommonModule } from '@angular/common';
@@ -32,14 +32,15 @@ import { ReviewsModalComponent } from './guest-review-modal/guest-review-modal';
     CommonModule,
     StarComponent,
     //ReviewsModalComponent ,
+    Confirm,
+    Modal,
     ReviewsModalComponent,
   ],
   templateUrl: './guest-reviews.html',
   styleUrl: './guest-reviews.css',
 })
 export class GuestReviews implements OnInit {
-  @Input() propertyId!: number;
-
+  @Input() propertyId?: number;
   // @Input() propertyName: string = 'This Property';
   //@Input() userbookings: any[] = [];
 
@@ -136,11 +137,10 @@ export class GuestReviews implements OnInit {
   //then check if there's one who booked show the review button
   // Check if user is logged in using AuthService
   shouldShowReviewButton(): boolean {
-    console.log('Checking if review button should be shown');
+    // console.log('Checking if review button should be shown');
 
     if (!this.currentUser) {
-      console.log('No current user found.');
-
+      // console.log('No current user found.');
       return false;
     } else {
       console.log('Current user:', this.currentUser);
@@ -165,7 +165,7 @@ export class GuestReviews implements OnInit {
     }
 
     const hasExistingReview = this.reviews.some(
-      (review) => review.user.userId === this.currentUser
+      (review) => review.userId === this.currentUser
     );
 
     // console.log('Has existing review from user:', hasExistingReview);
@@ -177,25 +177,21 @@ export class GuestReviews implements OnInit {
     // console.log('All checks passed. Show review button.');
     return true;
   }
-  // hasExistingReview(): boolean {
-  //   return this.reviews.some((review) => review.userId === this.currentUser);
-  // }
-
   hasExistingReview(): boolean {
     console.log('Current User:', this.currentUser, typeof this.currentUser);
     console.log(
       'Reviews with userIds:',
       this.reviews.map((r) => ({
         id: r.id,
-        userId: r.user.userId,
-        userIdType: typeof r.user.userId,
+        userId: r.userId,
+        userIdType: typeof r.userId,
       }))
     );
 
     return this.reviews.some((review) => {
-      const match = String(review.user.userId) === String(this.currentUser);
+      const match = String(review.userId) === String(this.currentUser);
       console.log(
-        `Comparing: "${review.user.userId}" === "${this.currentUser}" = ${match}`
+        `Comparing: "${review.userId}" === "${this.currentUser}" = ${match}`
       );
       return match;
     });
@@ -251,10 +247,8 @@ export class GuestReviews implements OnInit {
     });
   }
 
-  navigateToEditReview(review: IGuestReviewDto) {
-    this.router.navigate(['/review', review.id], {
-      state: { reviewData: review },
-
+  navigateToEditReview(reviewId: number) {
+    this.router.navigate(['/review', reviewId], {
       queryParams: {
         mode: 'edit',
       },
@@ -266,16 +260,11 @@ export class GuestReviews implements OnInit {
 
     this.ReviewService.getReviewsByPropertyId(this.propertyId!).subscribe({
       next: (response) => {
-        // console.log('Raw API Response:', response);
-        // console.log('First review object:', response[0]);
-        // console.log('Keys in first review:', Object.keys(response[0] || {}));
+        console.log('Reviews data :::::::::::::::::::::::::::::::::', response); // Debug line
 
         this.reviews = response;
         // this.checkUserExistingReview();
         this.cdr.detectChanges();
-        setTimeout(() => {
-          this.cdr.detectChanges();
-        }, 50);
       },
       error: (e) => {
         console.error('Error loading reviews:', e);
@@ -294,42 +283,21 @@ export class GuestReviews implements OnInit {
   //     },
   //   });
   // }
-
-  // performDelete(reviewId: number) {
-  //   this.ReviewService.deleteReview(reviewId).subscribe({
-  //     next: () => {
-  //       //     this.reviews = this.reviews.filter((review) => review.id !== reviewId);
-  //       // this.userExistingReview = false;
-  //       // Recheck eligibility after deletion
-  //       // this.checkUserReviewEligibility();
-  //       this.reviews = this.reviews.filter((review) => review.id !== reviewId);
-
-  //       this.cdr.detectChanges();
-
-  //       //   this.cdr.detectChanges();
-  //     },
-  //     error: (error) => {
-  //       console.error('Delete failed:', error);
-  //     },
-  //   });
-  // }
   performDelete(reviewId: number) {
-    // Optimistically update UI first
-    this.reviews = this.reviews.filter((review) => review.id !== reviewId);
-    this.cdr.detectChanges();
-
     this.ReviewService.deleteReview(reviewId).subscribe({
       next: () => {
-        // Already filtered above
-        console.log('Review deleted successfully');
+        this.reviews = this.reviews.filter((review) => review.id !== reviewId);
+        // this.userExistingReview = false;
+        // Recheck eligibility after deletion
+        // this.checkUserReviewEligibility();
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Delete failed:', error);
-        // Revert the UI change on error
-        this.loadReviewsByPropertyId();
       },
     });
   }
+
   deleteHandler(reviewId: number) {
     this.confirmService.show(
       'Delete Your Review?',
@@ -399,8 +367,7 @@ export class GuestReviews implements OnInit {
     const categories = [
       'cleanliness',
       'accuracy',
-      'checkIn', // Note: this should match your DTO property name
-
+      'checkIn',
       'communication',
       'location',
       'value',
@@ -408,40 +375,28 @@ export class GuestReviews implements OnInit {
     const averages: { [key: string]: number } = {};
 
     categories.forEach((category) => {
-      const sum = this.reviews.reduce((acc, review) => {
-        const value = review[category as keyof IGuestReviewDto] as number;
-        return acc + (value || 0); // Handle null/undefined values
-      }, 0);
-      averages[category] =
-        this.reviews.length > 0
-          ? Number((sum / this.reviews.length).toFixed(1))
-          : 0;
+      const sum = this.reviews.reduce(
+        (acc, review) =>
+          acc + (review[category as keyof IGuestReviewDto] as number),
+        0
+      );
+      averages[category] = sum / this.reviews.length;
     });
 
     return averages;
   }
+
   getCategoryIcon(category: string): string {
     const icons: { [key: string]: string } = {
-      cleanliness: 'bi-droplet', // or 'bi-house-check'
+      cleanliness: 'bi-house-check',
       accuracy: 'bi-check-circle',
       checkIn: 'bi-key',
-      communication: 'bi-chat-square-dots',
+      communication: 'bi-chat-dots',
       location: 'bi-geo-alt',
-      value: 'bi-tag',
+      value: 'bi-currency-dollar',
     };
-    return icons[category.toLowerCase()] || 'bi-star';
+    return icons[category] || 'bi-star';
   }
-  getCleanlinessRatings(): number[] {
-    return this.reviews
-      .map((r) => r.cleanliness)
-      .filter((c): c is number => c !== null && c !== undefined);
-  }
-
-  cleanlinessRatings = this.getCleanlinessRatings();
-
-  averageCleanliness =
-    this.cleanlinessRatings.reduce((sum, value) => sum + value, 0) /
-    (this.cleanlinessRatings.length || 1);
 }
 
 // loadUserCompletedBookings(): void {

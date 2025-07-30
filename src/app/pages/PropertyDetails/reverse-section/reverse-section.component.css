@@ -18,6 +18,10 @@
 
   }  
 
+  .guest-limit-note{
+    color: green;
+  }
+
   .price-info {
     font-size: 22px;
     font-weight: 600;
@@ -84,12 +88,14 @@
   background: #FFFFFF;
 
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    
+
+    width: 360px;
+
   border-radius: 12px;
   padding: 12px;
-  margin-left: 15px;
+  margin-left: 10px;
   text-align: center;
-  margin-right: 15px;
+  margin-right: 17px;
 }
 
 .rare-find-icon {

@@ -7,7 +7,6 @@ import { DialogService } from '../../core/services/dialog.service';
 import { HandleImgService } from '../../core/services/handleImg.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { NotificationService } from '../../core/services/Notification/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -57,7 +56,6 @@ export class Login {
 
   constructor(
     private userService: UserService,
-    private notificationService: NotificationService,
     private router: Router,
     private authService: AuthService
   ) {}
@@ -69,28 +67,11 @@ export class Login {
         next: (res) => {
           alert('Logged in successfully');
           this.close();
-          const userId = res.userId;
-          this.userService.getProfile(userId).subscribe({
+          this.userService.getProfile(res.userId).subscribe({
             next: (res) => {
               console.log(res);
               localStorage.setItem('email', res.email);
               localStorage.setItem('user', JSON.stringify(res));
-              const message = `Welcome to Airbnb ${
-                res.firstName || res.userName
-              }`;
-              this.notificationService
-                .createNotification({
-                  userId,
-                  message,
-                })
-                .subscribe({
-                  next: () => {
-                    console.log('Notification created successfully');
-                  },
-                  error: (err) => {
-                    console.error('Notification creation failed:', err);
-                  },
-                });
               (window as any).Logging?.();
 
               if (res.firstName === null) {

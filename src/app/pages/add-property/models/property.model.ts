@@ -1,10 +1,3 @@
-import { UserProfileDto } from "../../../core/models/ireview";
-
-export enum PropertyAcceptStatus{
-    pending = 1,
-    accepted = 2,
-    rejected = 3,
-}
 export interface PropertyImage {
     id?: number;
     groupName: string;
@@ -34,7 +27,6 @@ export interface PropertyFilterDto {
     maxDistanceKm?: number;
     propertyType?: string;
     amenities?: string[];
-
 }
 
 export interface PropertyDisplayDTO {
@@ -56,11 +48,6 @@ export interface PropertyDisplayDTO {
     isDeleted?: boolean;
     rating?: number;
     wishlistProperties?: any[]; // Can be typed more specifically if needed
-    status:PropertyAcceptStatus
-    country?:string
-    city?:string
-    averageRating:number
-
 }
 
 export interface PropertyImagesCreateDTO {
@@ -81,8 +68,4 @@ export interface PaginatedResult<T> {
     currentPage: number;
     totalPages: number;
     pageSize: number;
-}
-
-export interface PropertyDisplayWithHostDataDto extends PropertyDisplayDTO{
-    host:UserProfileDto
 }

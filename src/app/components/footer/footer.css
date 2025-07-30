@@ -1,6 +1,5 @@
-footer,
-footer > * {
-  transition: background-color var(--primary-bg-transition-time) ease-in-out;
+footer,footer>*{
+    transition: background-color var(--primary-bg-transition-time) ease-in-out;
 }
 .footer-container p {
   margin: 0.25rem 0;
@@ -8,18 +7,17 @@ footer > * {
 .nav-tabs .nav-link {
   cursor: pointer;
 }
-.nav-item,
-.nav-link {
-  background-color: var(--bg-color) !important;
-  color: var(--primary-text-color) !important;
+.nav-item,.nav-link{
+    background-color: var(--bg-color) !important;
+    color: var(--primary-text-color) !important
 }
-footer {
-  background-color: var(--bg-color) !important;
-  color: var(--primary-text-color) !important;
+footer{
+    background-color: var(--bg-color) !important;
+    color: var(--primary-text-color) !important;
 }
-.primary-text {
-  color: var(--primary-text-color);
+.primary-text{
+    color: var(--primary-text-color);
 }
-.secondary-text {
-  color: var(--secondary-text-color);
+.secondary-text{
+    color: var(--secondary-text-color);
 }

@@ -7,8 +7,7 @@
   max-width: 1440px;
   margin: 0 auto;
   padding: 24px 40px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 /* Loading State */
@@ -32,12 +31,8 @@
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .loading-text {
@@ -409,11 +404,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(
-    135deg,
-    var(--airbnb-red),
-    var(--airbnb-dark-red)
-  );
+  background: linear-gradient(135deg, var(--airbnb-red), var(--airbnb-dark-red));
   color: white;
   border: none;
   border-radius: 8px;
@@ -440,7 +431,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
-
+  
   .property-image-container {
     height: 240px;
   }
@@ -450,13 +441,13 @@
   .host-properties-container {
     padding: 16px 20px;
   }
-
+  
   .header-section {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
   }
-
+  
   .header-controls {
     width: 100%;
     justify-content: space-between;
@@ -474,13 +465,13 @@
   .property-image-container {
     height: 220px;
   }
-
+  
   .properties-table th,
   .properties-table td {
     padding: 12px;
     font-size: 13px;
   }
-
+  
   .table-property-image {
     width: 60px;
     height: 45px;
@@ -491,24 +482,24 @@
   .host-properties-container {
     padding: 16px;
   }
-
+  
   .property-image-container {
     height: 200px;
   }
-
+  
   .properties-grid {
     gap: 16px;
   }
-
+  
   .property-content {
     padding: 16px;
   }
-
+  
   .add-listing-btn {
     padding: 10px 16px;
     font-size: 13px;
   }
-
+  
   .table-property-image {
     width: 50px;
     height: 38px;
@@ -609,12 +600,12 @@
   .property-actions {
     flex-direction: column;
   }
-
+  
   .dark-btn {
     width: 100%;
     justify-content: center;
   }
-
+  
   .table-actions {
     flex-direction: column;
     gap: 4px;

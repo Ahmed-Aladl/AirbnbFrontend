@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment.development';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Wishlist } from '../../models/Wishlist';
 import { Property } from '../../models/Property';
 
@@ -24,7 +24,7 @@ export interface WishlistWithPropertiesDTO {
 export class WishlistService {
   private readonly baseUrl = environment.baseUrl + '/wishlist';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAllWishlists(): Observable<Wishlist[]> {
     return this.http
@@ -68,10 +68,7 @@ export class WishlistService {
       .delete<Result<boolean>>(
         `${this.baseUrl}/remove-favorite/${propertyId}`
       )
-      .pipe(
-        map((response) => response.isSuccess),
-        tap((response) => console.log('📥 Raw response from backend:', response)),
-      );
+      .pipe(map((response) => response.isSuccess));
   }
 
   getPropertiesInWishlist(

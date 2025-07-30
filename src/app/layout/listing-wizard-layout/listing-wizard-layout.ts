@@ -2,9 +2,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { PropertyFormStorageService } from '../../core/services/ListingWizard/property-form-storage.service';
 import { ListingWizardService } from '../../core/services/ListingWizard/listing-wizard.service';
 import { PropertyCreationService } from '../../core/services/Property/property-creation.service';
-import { PropertyFormStorageService } from '../../pages/add-property/services/property-form-storage.service';
 
 @Component({
   selector: 'app-listing-wizard-layout',
@@ -67,62 +67,32 @@ export class ListingWizardLayoutComponent {
   }
 
   handleSubmit() {
-    console.log('=== STARTING PROPERTY SUBMISSION ===');
-
-    const localStorageData = localStorage.getItem('property_form_data');
-    console.log('📂 localStorage data:', localStorageData ? JSON.parse(localStorageData) : 'No data');
-
-    const allFormData = this.formStorage.getFormData();
-    console.log('📋 All form data from service:', allFormData);
-
-    const step23Data = allFormData['step2-3'];
-    console.log('📸 Step 2-3 data specifically:', step23Data);
-
-    const hasImages = !!(
-      step23Data &&
-      (
-        (step23Data.imageFiles && step23Data.imageFiles.length > 0) ||
-        (step23Data.images && step23Data.images.length > 0)
-      )
-    );
-
-    const imageCount =
-      step23Data?.imageFiles?.length ??
-      step23Data?.images?.length ??
-      0;
-
-    console.log('🔍 Image check results:');
-    console.log('  - hasImages:', hasImages);
-    console.log('  - imageCount:', imageCount);
-
-    if (!hasImages) {
-      console.error('❌ No images found!');
-      alert('Please upload at least one image before submitting the property.');
-      return;
-    }
-
-    console.log(`✅ Found ${imageCount} images, proceeding...`);
-
+    // Build property data from wizard form storage
     const propertyData = this.propertyCreationService.buildPropertyFromWizard();
+    
+    // Ensure images array exists
     const finalPropertyData = {
       ...propertyData,
       images: propertyData.images || []
     };
-
+    
+    // Create the property
     this.propertyCreationService.createProperty(finalPropertyData).subscribe({
       next: (response) => {
-        console.log('✅ Property created successfully:', response);
+        // Clear form storage
         this.formStorage.clearFormData();
+        // Clear local storage
         localStorage.removeItem('property_form_data');
-        // alert('Property created successfully!');
+        // Navigate to success page or property listing
         this.router.navigate(['/host']);
       },
       error: (error) => {
-        console.error('❌ Error creating property:', error);
-        alert('Failed to create property: ' + error.message);
+        console.error('Error creating property:', error);
+        // Handle error (show error message to user)
       }
     });
   }
+
   private getCurrentStepIndex(): number {
     const url = this.router.url;
     const wizardBasePath = '/listing-wizard';
@@ -156,7 +126,7 @@ export class ListingWizardLayoutComponent {
     if (currentIndex > -1 && currentIndex < this.stepRoutes.length - 1) {
       // Trigger saving in the current component
       this.wizardService.triggerNextStep();
-
+      
       // Let any parent components know
       this.onNextStep.emit();
 
@@ -177,7 +147,7 @@ export class ListingWizardLayoutComponent {
       const prevStep = this.stepRoutes[currentIndex - 1];
       this.router.navigate(['/listing-wizard', prevStep]);
     }
-
+    
     this.onPrevStep.emit();
   }
 }

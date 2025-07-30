@@ -7,7 +7,7 @@ import * as signalR from '@microsoft/signalr';
   selector: 'app-signalr-test',
   templateUrl: './signal-rtest.html',
   styleUrls: ['./signal-rtest.css'],
-  imports: [FormsModule, CommonModule],
+  imports:[FormsModule,CommonModule]
 })
 export class SignalrTestComponent implements OnInit, OnDestroy {
   private connection: signalR.HubConnection | undefined;
@@ -16,13 +16,13 @@ export class SignalrTestComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.connection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7025/chatHub', { withCredentials: true }) // 🔁 Replace with your backend SignalR hub URL
+      .withUrl('https://localhost:7025/chatHub',{withCredentials: true}) // 🔁 Replace with your backend SignalR hub URL
       .withAutomaticReconnect()
       .build();
 
-    console.log('connectionlisten');
-    this.connection.on('ReceiveMessage', (messageDto: any) => {
-      console.log(messageDto);
+      console.log("connectionlisten")
+    this.connection.on('ReceiveMessage', (messageDto:any) => {
+      console.log(messageDto)
       // this.messages.push(`${user}: ${message}`);
       // alert(`New message from ${user}: ${message}`); // Optional notification
     });
@@ -30,18 +30,14 @@ export class SignalrTestComponent implements OnInit, OnDestroy {
     this.connection
       .start()
       .then(() => console.log('SignalR connected'))
-      .catch((err) => console.error('SignalR connection error:', err));
+      .catch(err => console.error('SignalR connection error:', err));
   }
 
   sendMessage(): void {
-    if (
-      this.connection &&
-      this.connection.state === signalR.HubConnectionState.Connected
-    ) {
-      this.connection
-        .invoke('SendMessage', 'TestUser', this.messageToSend)
-        .then(() => (this.messageToSend = ''))
-        .catch((err) => console.error(err));
+    if (this.connection && this.connection.state === signalR.HubConnectionState.Connected) {
+      this.connection.invoke('SendMessage', 'TestUser', this.messageToSend)
+        .then(() => this.messageToSend = '')
+        .catch(err => console.error(err));
     }
   }
 

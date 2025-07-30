@@ -10,8 +10,10 @@
         <div class="price-info  " *ngIf="totalPrice">price:-
           <span class="price" >{{ pricePerNight | currency }}</span> <span>/ night</span>
       </div>
-          <div class="total-price" *ngIf="totalPrice">
-              Total: {{ totalPrice | currency }}
+          <div class="total-price" *ngIf="totalPrice"  class="mt-2 text-success fs-5 fw-medium d-flex m-auto">
+            
+              Total <img style="width: 20px; height: 25px;" src="assets/images/dollars.png" alt="dolar image"> 
+              : {{ totalPrice |  currency }}
           </div>
 
   <!-- Check-in / Check-out -->
@@ -20,10 +22,9 @@
       <span>Check-in</span>
       <input  type="date" [(ngModel)]="checkInDate"  (ngModelChange)="isCheckIn($event)" />
     </label>
-    <label>
-      <span>Check-out</span>
-      <input type="date" [(ngModel)]="checkOutDate" (ngModelChange)="isCheckOut($event)"/>
-    </label> -->
+    <label> -->
+      <span class="font-black fw-medium fs-5 ">Price per Neight : <span style="color: cornflowerblue;"> {{pricePerNight}}</span> </span>
+
     <div class="flex justify-content-end mb-2"(click)="onClear()"><button >clear</button></div>
     <input
     #picker
@@ -97,7 +98,7 @@
       </div> -->
    
         <div class="guest-limit-note" *ngIf="maxGuests">
-        This place has a maximum of {{ maxGuests }} guests, not including infants. 
+        This place has a maximum of <span style="color: rgb(24, 162, 242);font-size: large;"> {{ maxGuests }}</span> guests 
         If you're bringing more than 2 pets, please let your host know.
       </div>
       <div class="text-red-500 mt-2" *ngIf="errorMessage">
@@ -107,13 +108,13 @@
 
     
     </div>
-         <button *ngIf="!isPreview" type="su" class="check-btn" [disabled]="!checkInDate || !checkOutDate " (click)="checkAvailabilityForSelectedRange()">
+         <button type="button" class="check-btn" (click)="checkAvailabilityForSelectedRange()">
           Reserve
         </button>  
         <!-- If available -->
-<div *ngIf="isDateRangeAvailable === true" class="mt-2 text-success">
+<!-- <div *ngIf="isDateRangeAvailable === true" class="mt-2 text-success">
   ✅ Available — Total Price: {{ totalPrice }}$
-</div>
+</div> -->
 
 <!-- If unavailable -->
 <div *ngIf="isDateRangeAvailable === false" class="mt-2 text-danger">

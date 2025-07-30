@@ -55,12 +55,7 @@ export class WishListProperties implements OnInit {
 
           if (property) property.isFavourite = false;
           this.showToast('Property removed from wishlist', 'bottom', 'left');
-
-          if (this.properties.length === 0) {
-            this.router.navigate(['/WishLists']);
-          }
-        }
-        else {
+        } else {
 
           this.showToast("Couldn't remove the property", 'bottom', 'left');
         }
