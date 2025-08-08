@@ -1,0 +1,311 @@
+{
+  "HEADER": {
+    "HOMES": "Homes",
+    "EXPERIENCES": "Experiences",
+    "SERVICES": "Services",
+    "SWITCH_TO_HOSTING": "Switch to hosting",
+    "SWITCH_TO_TRAVELLER": "Switch to traveler",
+    "SIGN_UP": "Sign up",
+    "LOGIN": "Log in",
+    "DARK_MODE": "Dark Mode",
+    "LIGHT_MODE": "Light Mode",
+    "LANGUAGE": "Language",
+    "ENGLISH": "English",
+    "ARABIC": "Arabic",
+    "AIRBNB_YOUR_HOME": "Home",
+    "HELP": "Help",
+    "WHERE": "Where",
+    "ANYWHERE": "Anywhere",
+    "SEARCH_DESTINATIONS": "Search destinations",
+    "DATE": "Date",
+    "ADD_DATE": "Add Date",
+    "ADD_DATES": "Add dates",
+    "WHO": "Who",
+    "ADD_GUESTS": "Add Guests",
+    "TODAY": "Today",
+    "TOMORROW": "Tomorrow",
+    "THIS_WEEKEND": "This weekend",
+    "SUGGESTED_DESTINATIONS": "Suggested destinations",
+    "FLEXIBLE_SEARCH": "Flexible search",
+    "GUEST": "guest",
+    "GUESTS": "guests",
+    "INFANT": "infant",
+    "INFANTS": "infants",
+    "LOGOUT": "Logout",
+    "notifications": "Notifications",
+    "NAV": {
+      "TODAY": "Today",
+      "CALENDAR": "Calendar",
+      "LISTINGS": "Listings",
+      "MESSAGES": "Messages",
+      "WALLET": "Payments"
+    },
+    "PROFILE": "Profile",
+    "WISHLISTS": "Wishlists"
+  },
+  "login": {
+    "welcome": "Welcome back",
+    "goTOForgotPassword": "Are you forgetting your password?",
+    "notYou": "Not you?",
+    "goToRegister": "Use another account",
+    "email": "Email",
+    "password": "Password",
+    "showPass": "Show",
+    "login": "Login"
+  },
+  "register": {
+    "welcome": "Welcome to Airbnb",
+    "email": "Email",
+    "password": "Password",
+    "showPass": "Show",
+    "register": "Register",
+    "hi": "Sign up"
+  },
+  "confirmOtp": {
+    "welcome": "Your OTP is valid for 1 minute",
+    "confirmOtp": "Confirm OTP",
+    "confirm": "Confirm",
+    "resendOtp": "Resend OTP"
+  },
+  "resetPassword": {
+    "welcome": "You have been sent a reset password email with a one-time code for your password reset valid for 1 minute",
+    "resetYourPassword": "Reset Password",
+    "email": "Email",
+    "password": "Password",
+    "showPass": "Show",
+    "confirm": "Confirm",
+    "confirmReset": "Confirm Reset Password"
+  },
+  "profile": {
+    "title": "Profile",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phoneNumber": "Phone Number",
+    "country": "Country",
+    "birthDate": "Birth Date",
+    "bio": "Bio",
+    "submit": "Submit",
+    "aboutMe": "About Me",
+    "travels": "Travels",
+    "edit": "Edit",
+    "yourReviews": "Your Reviews",
+    "uploadImage": "Upload Image",
+    "previewImage": "Preview Image",
+    "upload": "Upload",
+    "cancel": "Cancel",
+    "yourTravels": "Your Travels",
+    "manageYourReservations": "Manage your reservations and explore new destinations",
+    "noTripsYet": "No trips yet",
+    "timeToDustOff": "Time to dust off your bags and start planning your next adventure",
+    "startSearching": "Start searching",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Guests",
+    "nights": "Nights",
+    "bookingId": "Booking ID",
+    "totalPaid": "Total paid",
+    "perNight": "per night",
+    "manageBooking": "Manage booking",
+    "somethingWentWrong": "Something went wrong",
+    "pleaseTryAgain": "Please try again later",
+    "status": {
+      "upcoming": "Upcoming",
+      "past": "Past",
+      "current": "Current"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "unread": "Unread",
+    "markAllAsRead": "Mark all as read",
+    "clearAll": "Clear all",
+    "noNotifications": "No notifications",
+    "markAsRead": "Mark as read",
+    "delete": "Delete"
+  },
+  "WALLET": {
+    "LOADING": "Loading your payments...",
+    "RETRY": "Retry",
+    "PENDING_TRANSACTIONS": {
+      "TITLE": "Pending transactions",
+      "TAB": "Pending payments",
+      "NO_TRANSACTIONS": "You have no pending transactions.",
+      "TABLE": {
+        "BOOKING_ID": "BOOKING ID",
+        "MILESTONE": "MILESTONE",
+        "AMOUNT": "AMOUNT",
+        "STATUS": "STATUS",
+        "CREATED_AT": "CREATED AT"
+      },
+      "PAYMENT_RECEIVED": "Payment received",
+      "STATUS_PENDING": "Pending Transfer",
+      "BOOKING_PREFIX": "Booking #"
+    },
+    "BALANCE": {
+      "TITLE": "Total balance",
+      "TRANSACTIONS_TITLE": "Balance transactions",
+      "NO_TRANSACTIONS": "You have no balance transactions yet.",
+      "TABLE": {
+        "BOOKING_ID": "BOOKING ID",
+        "AMOUNT": "AMOUNT",
+        "TRANSFERRED_AT": "TRANSFERRED AT"
+      },
+      "WITHDRAWAL_INFO": "To proceed with your withdrawal, please upload your national ID and enter the needed legal info.",
+      "WITHDRAW_BUTTON": "Withdraw"
+    },
+    "STRIPE_ACCOUNT": {
+      "SETUP_TITLE": "Setup Payment Account",
+      "SETUP_DESCRIPTION": "Please complete your Stripe account setup to receive your earnings.",
+      "COMPLETE_SETUP": "Complete Stripe Account Setup",
+      "REDIRECTING": "Redirecting..."
+    },
+    "ACTIONS": {
+      "SHOW_MORE": "Show more",
+      "SHOW_LESS": "Show less"
+    },
+    "ERROR": {
+      "GENERAL": "Failed to load payments. Please try again.",
+      "STRIPE_STATUS": "Unable to verify Stripe account status.",
+      "USER_NOT_AUTHENTICATED": "User not authenticated",
+      "TRANSFER_FAILED": "Transfer failed. Please try again.",
+      "CREATE_STRIPE": "Failed to create Stripe account. Please try again."
+    }
+  },
+  "MESSAGES": {
+    "TITLE": "Messages",
+    "LOADING_INITIAL": "Loading messages...",
+    "LOADING_MORE": "Loading more messages...",
+    "ALL_LOADED": "All messages loaded ({{count}} total)",
+    "LOAD_MORE_BTN": "Load More Messages",
+    "TRY_AGAIN": "Try again",
+    "FILTER": {
+      "ALL": "All",
+      "UNREAD": "Unread ({{count}})"
+    },
+    "EMPTY_STATE": {
+      "UNREAD_TITLE": "No unread messages",
+      "UNREAD_SUB": "All your messages have been read.",
+      "DEFAULT_TITLE": "You don't have any messages",
+      "DEFAULT_SUB": "When you receive a new message, it will appear here."
+    },
+    "LANGUAGE": {
+      "LABEL": "Translate messages to:",
+      "PLACEHOLDER": "Search languages...",
+      "ORIGINAL": "Original language"
+    }
+  },
+  "CHAT": {
+    "LOADING_MESSAGES": "Loading messages...",
+    "WRITE_MESSAGE": "Write a message...",
+    "RESPONSE_TIME": "Typical response time: {{time}}",
+    "READ_BY": "Read by {{name}}",
+    "ALL_LOADED": "All messages loaded",
+    "NO_MESSAGES": "No messages yet",
+    "PLACEHOLDER": {
+      "TITLE": "Welcome to Messages",
+      "SUBTITLE": "Your conversations will appear here"
+    },
+    "TITLE": "Travel Assistant",
+    "STATUS": "Ready to help",
+    "PLACEHOLDER_bot": "Ask about places to stay, or travel...",
+    "CLEAR": "Clear chat",
+    "CLOSE": "Close chat",
+    "QUICK_HELP": "Quick help with:",
+    "welcome": "Hi there! 👋 I'm your travel assistant. Ask me about bookings, prices, availability, or anything else you need help with.",
+    "cleared": "Chat cleared! How can I help you with your travel plans today? 🏠✈️",
+    "error": "Sorry, something went wrong. Please try again later.",
+    "quick": {
+      "find_place": "🏠 Find a place",
+      "check_availability": "📅 Check availability",
+      "pricing": "💰 Pricing info"
+    }
+  },
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "DESCRIPTION": "These apply to all nights, unless you customize them by date.",
+    "TABS": {
+      "PRICING": "Pricing"
+    },
+    "BLOCK": {
+      "HEADER": "Selected Dates Options",
+      "OPEN": "Open night",
+      "BLOCKED": "Blocked",
+      "PRICE_NOTE": "Set the price for selected dates",
+      "CLEAR_SELECTION": "Clear Selection",
+      "SAVE_CHANGES": "Save Changes"
+    },
+    "HELP": {
+      "TITLE": "Tips:",
+      "OPEN": "Open night:",
+      "OPEN_DESC": "Guests can book these dates at the specified price",
+      "BLOCKED": "Blocked:",
+      "BLOCKED_DESC": "Dates become unavailable for booking",
+      "SINGLE_OR_RANGE": "You can select single dates or date ranges",
+      "AFFECTS_SELECTED": "Price changes only apply to the selected dates"
+    }
+  },
+  "CALENDAR": {
+    "MODE": {
+      "SINGLE": "Single Day",
+      "RANGE": "Date Range",
+      "MULTIPLE": "Multiple Days"
+    },
+    "VIEW": {
+      "MONTH": "Month",
+      "YEAR": "Year"
+    },
+    "ACTIONS": {
+      "CLOSE": "Close",
+      "APPLY": "Apply",
+      "VIEW": "View"
+    },
+    "ERRORS": {
+      "USER_NOT_AUTHENTICATED": "User not authenticated.",
+      "FAILED_TO_LOAD_PROPERTIES": "Failed to load properties. Please try again later."
+    },
+    "SELECT_PROPERTY": "Select Property"
+  },
+  "AVAILABILITY": {
+    "LOADING": "Loading calendar data..."
+  },
+  "COMMON": {
+    "COMING_SOON": "Coming Soon"
+  },
+  "PROPERTIES": {
+    "OVER_HOMES": "Over {{count}} homes",
+    "PRICES_INCLUDE_FEES": "Prices include all fees",
+    "PAGINATION": {
+      "PREV": "Previous",
+      "NEXT": "Next"
+    }
+  },
+  "HOME": {
+    "SECTIONS": {
+      "POPULAR_CAIRO": "Popular homes in Cairo",
+      "HURGHADA_NEXT_WEEKEND": "Available in Hurghada next weekend",
+      "STAY_NEW_CAIRO": "Stay in New Cairo",
+      "DUBAI_NEXT_MONTH": "Available next month in Dubai",
+      "AIN_SOKHNA": "Homes in Ain Sokhna",
+      "ALEX_NEXT_WEEKEND": "Available in Alexandria next weekend",
+      "PARIS": "Places to stay in Paris",
+      "MILAN": "Check out homes in Milan",
+      "SHEIKH_ZAYED": "Popular homes in Sheikh Zayed City",
+      "BARCELONA": "Stay in Barcelona"
+    },
+    "TOAST": {
+      "LOGIN_REQUIRED": "Please log in to add to wishlist.",
+      "REMOVED": "Property removed from wishlist",
+      "REMOVE_FAILED": "Couldn't remove the property",
+      "ADDED": "Property added to wishlist",
+      "ADD_FAILED": "Couldn't add the property",
+      "NEED_TO_CREATE_LISTING": "Please create a listing first to access the calendar",
+      "OK": "OK"
+    }
+  },
+  "PROPERTY": {
+    "ADD_TO_WISHLIST": "Add to Wishlist",
+    "REMOVE_FROM_WISHLIST": "Remove from Wishlist",
+    "LINK_COPIED": "Link copied successfully",
+    "COPY_FAILED": "Failed to copy link"
+  }
+}
