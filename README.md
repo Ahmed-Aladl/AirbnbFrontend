@@ -1,59 +1,260 @@
-# AirbnbFrontend
+# 🏠 Airbnb Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.4.
+A modern, responsive Airbnb clone built with Angular 20, featuring a comprehensive property rental platform with advanced search capabilities, real-time messaging, and seamless user experience.
 
-## Development server
+![Angular](https://img.shields.io/badge/Angular-20.1.2-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8.2-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.7-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-To start a local development server, run:
+## 🌟 Features
 
-```bash
-ng serve
+### 🔍 **Advanced Search & Filtering**
+- Location-based property search with interactive maps
+- Date range picker for availability checking
+- Advanced filters (price, amenities, property type)
+- Real-time search results
+
+### 🏡 **Property Management**
+- **Host Dashboard**: Complete property management system
+- **Property Listings**: Detailed property information with image galleries
+- **Availability Calendar**: Dynamic booking calendar
+- **Pricing Management**: Flexible pricing strategies
+
+### 👤 **User Experience**
+- **User Profiles**: Comprehensive user management
+- **Wishlist**: Save and organize favorite properties
+- **Reviews System**: Rate and review properties and hosts
+- **Booking History**: Track all reservations
+
+### 💬 **Communication**
+- **Real-time Messaging**: SignalR-powered chat system
+- **AI Chatbot**: Intelligent customer support
+- **Notifications**: Real-time updates and alerts
+
+### 🌍 **Localization & Accessibility**
+- Multi-language support (English, Arabic)
+- Responsive design for all devices
+- Interactive maps with Leaflet integration
+- Modern UI with Angular Material and Tailwind CSS
+
+## 🛠️ Tech Stack
+
+### **Frontend Framework**
+- **Angular 20.1.2** - Modern web application framework
+- **TypeScript 5.8.2** - Type-safe JavaScript
+
+### **UI & Styling**
+- **Angular Material 20.1.3** - Material Design components
+- **Tailwind CSS 2.2.19** - Utility-first CSS framework
+- **Bootstrap 5.3.7** - Responsive design system
+- **Animate.css** - CSS animations
+- **FontAwesome** - Icon library
+
+### **Maps & Visualization**
+- **Leaflet** - Interactive maps
+- **Google Maps API** - Location services
+- **Swiper** - Touch slider components
+
+### **Real-time Communication**
+- **SignalR** - Real-time web functionality
+- **RxJS** - Reactive programming
+
+### **Internationalization**
+- **Angular i18n** - Multi-language support
+- **ngx-translate** - Translation management
+
+### **Development Tools**
+- **Angular CLI 20.1.1** - Development tooling
+- **Prettier** - Code formatting
+- **Karma & Jasmine** - Testing framework
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js (version 18 or higher)
+- npm or yarn package manager
+- Angular CLI (`npm install -g @angular/cli`)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Ahmed-Aladl/AirbnbFrontend.git
+   cd AirbnbFrontend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install --legacy-peer-deps
+   ```
+
+3. **Start development server**
+   ```bash
+   npm start
+   # or
+   ng serve -o
+   ```
+
+4. **Open your browser**
+   Navigate to `http://localhost:4200/`
+
+## 📱 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start development server with auto-open browser |
+| `npm run build` | Build the project for production |
+| `npm run watch` | Build in watch mode for development |
+| `npm test` | Run unit tests with Karma |
+| `npm run serve:ssr` | Serve the SSR version |
+
+## 🏗️ Project Structure
+
+```
+src/
+├── app/
+│   ├── components/          # Reusable UI components
+│   │   ├── calendar/        # Date picker and calendar
+│   │   ├── chat-bot/        # AI chatbot component
+│   │   ├── search-filter/   # Advanced search filters
+│   │   └── ...
+│   ├── core/                # Core services and models
+│   │   ├── guards/          # Route guards
+│   │   ├── interceptors/    # HTTP interceptors
+│   │   ├── models/          # TypeScript interfaces
+│   │   └── services/        # Business logic services
+│   ├── layout/              # Application layouts
+│   │   ├── main-layout/     # Default user layout
+│   │   ├── host-layout/     # Host dashboard layout
+│   │   └── dashboard/       # Admin dashboard layout
+│   ├── pages/               # Feature pages
+│   │   ├── home/            # Landing page
+│   │   ├── property-info/   # Property details
+│   │   ├── booking/         # Reservation system
+│   │   ├── profile/         # User profiles
+│   │   └── ...
+│   └── shared/              # Shared utilities
+│       ├── components/      # Shared components
+│       ├── directives/      # Custom directives
+│       └── pipes/           # Custom pipes
+├── assets/                  # Static assets
+│   ├── i18n/               # Translation files
+│   └── images/             # Image resources
+└── environments/           # Environment configurations
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🌐 Key Features Deep Dive
 
-## Code scaffolding
+### **Search & Discovery**
+- **Smart Filters**: Filter by location, dates, guests, and amenities
+- **Map Integration**: Interactive property locations
+- **Instant Results**: Real-time search as you type
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### **Property Management**
+- **Multi-step Listing**: Guided property creation wizard
+- **Calendar Management**: Availability and pricing calendar
+- **Photo Gallery**: Drag-and-drop image management
 
-```bash
-ng generate component component-name
-```
+### **Booking System**
+- **Instant Booking**: Seamless reservation process
+- **Payment Integration**: Secure payment processing
+- **Booking Management**: Comprehensive booking dashboard
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### **Communication Hub**
+- **Host-Guest Messaging**: Direct communication channel
+- **Automated Notifications**: Booking confirmations and reminders
+- **Support Chat**: AI-powered customer support
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 🧪 Testing
 
 ```bash
-ng test
+# Run unit tests
+npm test
+
+# Run tests in watch mode
+ng test --watch
+
+# Generate coverage report
+ng test --code-coverage
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## 🏗️ Building for Production
 
 ```bash
-ng e2e
+# Build for production
+npm run build
+
+# The build artifacts will be stored in the `dist/` directory
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🌍 Internationalization
 
-## Additional Resources
+The application supports multiple languages:
+- English (default)
+- Arabic (RTL support)
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Translation files are located in `src/assets/i18n/`
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 Code Style
+
+This project uses Prettier for code formatting. The configuration is defined in `package.json`:
+
+```json
+{
+  "prettier": {
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  }
+}
+```
+
+## 🐛 Known Issues
+
+- Peer dependency conflicts with some packages (use `--legacy-peer-deps` flag)
+- Some Angular Material components may require version alignment
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Ahmed Essam** - [GitHub Profile](https://github.com/Ahmed-Aladl)
+
+**Mahmoud Taha** - [GitHub Profile](https://github.com/mahmoud140106)
+
+**Omar Dawood** - [GitHub Profile](https://github.com/dawood74)
+
+**Rawan Bakr** - [GitHub Profile](https://github.com/RawanBakr)
+
+**Kareem Elbalshe** - [GitHub Profile](https://github.com/kareemelbalshe)
+
+**Omar Gallo** - [GitHub Profile](https://github.com/omargallo)
+
+**Omar khalid** - [GitHub Profile](https://github.com/omarkhhamad)
+
+## 🙏 Acknowledgments
+
+- Angular team for the amazing framework
+- Material Design for the UI components
+- Leaflet for mapping capabilities
+- All contributors and the open-source community
+
+---
+
+⭐ **Star this repository if you found it helpful!**
