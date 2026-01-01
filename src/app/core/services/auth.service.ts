@@ -119,6 +119,7 @@ export class AuthService {
     this.cookieService.delete(this.userIdKey, '/');
     this.cookieService.delete(this.roleKey, '/');
 
+    this.cookieService.deleteAll('/');
     this.accessTokenSubject.next(null);
     this.refreshTokenSubject.next(null);
     this.userIdSubject.next(null);

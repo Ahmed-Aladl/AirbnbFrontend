@@ -166,7 +166,7 @@ export class BookingCalendarComponent implements OnInit, AfterViewInit {
       }
 
       const dateCells = calendarElement.querySelectorAll('td.available');
-      console.log(`Found ${dateCells.length} available date cells`);
+      // console.log(`Found ${dateCells.length} available date cells`);
 
       dateCells.forEach((cell: HTMLElement) => {
         try {
@@ -202,7 +202,7 @@ export class BookingCalendarComponent implements OnInit, AfterViewInit {
           const fullDate = monthDate.clone().date(parseInt(dayText));
           const dateKey = fullDate.format('YYYY-MM-DD');
 
-          console.log(`Processing date: ${dateKey}`);
+          // console.log(`Processing date: ${dateKey}`);
 
           const availabilityData = this.dateMap!.get(dateKey);
 
